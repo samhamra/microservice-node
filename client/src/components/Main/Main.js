@@ -27,7 +27,7 @@ export default class Main extends Component {
   }
   render() {
     const subForums = this.state.subForums.map(subForum => (
-      <li key={subForum.id}>{subForum.name}</li>
+      <li key={subForum.id}><Link to={"/f" + subForum.id}>{subForum.name}</Link></li>
     ))
     return (
       <div>
