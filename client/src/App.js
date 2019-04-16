@@ -7,7 +7,8 @@ import Register from './components/Register/Register'
 import Login from './components/Authentication/Login'
 import Logout from './components/Authentication/Logout'
 import CreateTopic from './components/CreateTopic/CreateTopic'
-import { Route, BrowserRouter } from 'react-router-dom';
+import Topic from './components/Topic/Topic'
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 class App extends Component {
   render() {
@@ -19,8 +20,10 @@ class App extends Component {
           <Route exact path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout}/>
           <Route exact path="/f:id" component={SubForum}/>
-          <Route exact path="/f:id/createTopic" component={CreateTopic}/>
-          
+          <Switch>
+            <Route exact path="/f:id/createTopic" component={CreateTopic}/>
+            <Route exact path="/f:forumId/t:topicId" component={Topic}/>
+          </Switch>
       </BrowserRouter>
     );
   }

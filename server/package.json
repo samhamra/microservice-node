@@ -18,7 +18,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:server": "nodemon --ignore sessions/ server.js",
+    "dev:server": "rm -r sessions/ && mkdir sessions && nodemon --ignore sessions/ server.js",
     "start": "node server.js"
   },
   "author": "Sam",

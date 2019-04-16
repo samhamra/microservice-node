@@ -23,6 +23,9 @@ export default class Navbar extends Component {
     const isLoggedIn = this.state.isLoggedIn;
     return (
       <div>
+        <div>
+          <Link to="/">Main</Link>
+        </div>
         {this.state.loggedIn ? (
           <div>
             <p>Username: {this.state.userName}</p>

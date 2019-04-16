@@ -40,13 +40,18 @@ export default class SubForum extends Component {
   }
   
   render() {
-    const topics= this.state.data.topics.map(topic=> (
-      <li key={topic.id}>{topic.title}</li>
+    const topics= this.state.data.topics.map((topic,i)=> (
+      <Link key={topic.id} to={`/f${this.props.match.params.id}/t${i}`}>
+        <li>
+            {topic.title}
+        </li>
+      </Link>
+    
     ))
     
     return (
       <div> 
-        SubForum {this.props.match.params.id}
+        <h1>{this.state.data.name}</h1>
         <ul>
           {topics}
         </ul>

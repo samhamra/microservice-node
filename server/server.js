@@ -63,31 +63,23 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-var forumData = [{id: 0, name:"Family", topics: [{title: "I love kids", post: "I really do", author: "Sam", timestamp: Date(), id: 0,  posts:[{post: "I agree", author:"Elin", id: 0, timestamp: Date()}] }]}, {id: 1, name:"Sports", topics: []}]
+var forum = [{id: 0, name:"Family", topics: [{title: "I love kids", post: "I really do", author: "Sam", timestamp: Date(), id: 0,  posts:[{post: "I agree", author:"Elin", id: 0, timestamp: Date()}] }]}, {id: 1, name:"Sports", topics: []}]
 
 
 app.post('/register', function(req, res) {
-  console.log(req.sessionID)
-  console.log(req.body)
   if(users.some(user=> user.username === req.body.username)) {
     res.send(409)
   } else {
-    let user = {username: req.body.username, password: req.body.password, id: users.length}
-    users.push(user)
+    users.push({username: req.body.username, password: req.body.password, id: users.length})
     res.send(200);
   }
-  console.log("register");
-  console.log(users)
 })
 
 app.post('/login', (req, res, next) => {
-  console.log(req.sessionID)
   passport.authenticate('local', (err, user, info) => {
-    if(info) {return res.send(info.message)}
     if (err) { console.log(err); return next(err); }
     if (!user) { console.log("no user found"); return res.sendStatus(401) }
     req.login(user, (err) => {
-      
       if (err) { console.log(err); return next(err); }
       console.log(user)
       console.log("authed")
@@ -96,53 +88,44 @@ app.post('/login', (req, res, next) => {
   })(req, res, next);
 })
 
-
-
-
-app.get('/authrequired', (req, res) => {
-  console.log('Inside GET /authrequired callback')
-  console.log(`User authenticated? ${req.isAuthenticated()}`)
-  if(req.isAuthenticated()) {
-    res.send(200)
-  } else {
-    res.send(401)
-  }
-})
-
-
-
 app.get('/logout',(req,res) => {
     req.session.destroy((err) => {
         if(err) {
             return console.log(err);
         }
-        res.status(200).send("logged out")
-        
+        res.statusCode(200)
     });
   })
 
-app.get('/getAllSubForums', function(req, res) {
+app.get('/f', function(req, res) {
   console.log(req.sessionID)
-  res.send(forumData.map(a => {
+  res.send(forum.map(a => {
     return {id: a.id, name: a.name}
   }))
 });
 
-app.get('/f:subForumId', function(req, res) {
-  res.send(forumData[req.params.subForumId])
+app.get('/f:forumId', function(req, res) {
+  console.log(req.params.forumId)
+  res.send(forum[req.params.forumId])
   
 })
 
-app.post('/f:subForumId/createTopic', function(req, res) {
-  console.log(req.sessionID)
+app.get('/f:forumId/t:topicId', function(req, res) {
+  res.send(forum[req.params.forumId].topics[req.params.topicId])
+  console.log(forum[req.params.forumId].topics[req.params.topicId])
+})
+
+app.post('/f:forumId/createTopic', function(req, res) {
+  console.log("create topic")
+  console.log(req.user)
   console.log(`User authenticated? ${req.isAuthenticated()}`)
   if(req.isAuthenticated()) {
-    
-    res.send(200)
+    let currentForum = forum[req.params.forumId];
+    currentForum.topics.push({title: req.body.title, post: req.body.post, author: req.user.username, timestamp: Date(), id: currentForum.topics.length, posts:[]})
+    res.status(200).json({path: `/f${currentForum.id}/t${currentForum.topics.length-1}` })
   } else {
-    res.send(401)
+    res.sendStatus(401)
   }
-  console.log(req.body)
 })
 
 app.listen(port, (err) => {
