@@ -51,7 +51,7 @@ app.use(session({
   store: new FileStore(),
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     maxAge: TWO_HOURS
   }
@@ -63,7 +63,30 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-var forum = [{id: 0, name:"Family", topics: [{title: "I love kids", post: "I really do", author: "Sam", timestamp: Date(), id: 0,  posts:[{post: "I agree", author:"Elin", id: 0, timestamp: Date()}] }]}, {id: 1, name:"Sports", topics: []}]
+var forum = [
+  {
+    id: 0, 
+    name:"Family", 
+    topics: [{
+      title: "I love kids", 
+      post: "I really do",
+      author: "Sam",
+      timestamp: Date(),
+      id: 0,
+      posts:[{
+        post: "I agree", 
+        author:"Elin", 
+        id: 0, 
+        timestamp: Date()
+      }] 
+    }]
+  },
+  {
+    id: 1,
+    name:"Sports", 
+    topics: []
+  }
+]
 
 
 app.post('/register', function(req, res) {
@@ -83,18 +106,16 @@ app.post('/login', (req, res, next) => {
       if (err) { console.log(err); return next(err); }
       console.log(user)
       console.log("authed")
+      req.session.key = "sam"
       return res.status(200).send({username: user.username})
     })
   })(req, res, next);
 })
 
-app.get('/logout',(req,res) => {
-    req.session.destroy((err) => {
-        if(err) {
-            return console.log(err);
-        }
-        res.statusCode(200)
-    });
+app.post('/logout',(req,res) => {
+    req.logout()
+    console.log("logged out")
+    res.end()
   })
 
 app.get('/f', function(req, res) {
@@ -110,23 +131,36 @@ app.get('/f:forumId', function(req, res) {
   
 })
 
-app.get('/f:forumId/t:topicId', function(req, res) {
-  res.send(forum[req.params.forumId].topics[req.params.topicId])
-  console.log(forum[req.params.forumId].topics[req.params.topicId])
-})
-
-app.post('/f:forumId/createTopic', function(req, res) {
+app.post('/f:forumId', function(req, res) {
   console.log("create topic")
   console.log(req.user)
   console.log(`User authenticated? ${req.isAuthenticated()}`)
   if(req.isAuthenticated()) {
-    let currentForum = forum[req.params.forumId];
+    console.log(req.params)
+    var currentForum = forum[req.params.forumId];
+    console.log(currentForum)
     currentForum.topics.push({title: req.body.title, post: req.body.post, author: req.user.username, timestamp: Date(), id: currentForum.topics.length, posts:[]})
     res.status(200).json({path: `/f${currentForum.id}/t${currentForum.topics.length-1}` })
   } else {
     res.sendStatus(401)
   }
 })
+
+app.get('/f:forumId/t:topicId', function(req, res) {
+  res.send(forum[req.params.forumId].topics[req.params.topicId])
+})
+
+app.post('/f:forumId/t:topicId', function(req, res) {
+  if(req.isAuthenticated()) {
+    let currentTopic = forum[req.params.forumId].topics[req.params.topicId];
+    currentTopic.posts.push({post: req.body.post, author: req.user.username, timestamp: Date(), id: currentTopic.posts.length})
+    res.sendStatus(200)
+  } else {
+    res.sendStatus(401)
+  }
+})
+
+
 
 app.listen(port, (err) => {
   if (err) {

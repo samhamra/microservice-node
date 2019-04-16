@@ -14,17 +14,18 @@ export default class CreateTopic extends Component {
   }
   sendData(e) {
     e.preventDefault()
-    let data = {title: e.target.elements[0].value, post: e.target.elements[1].value}
-    console.log(this.props.match.params)
-    fetch(`http://localhost:3000/f${this.props.match.params.id}/createTopic`, {
+    var data = {title: e.target.elements[0].value, post: e.target.elements[1].value}
+    fetch(`http://localhost:3000/f${this.props.match.params.forumId}`, 
+      {
         method: "POST",
         mode: "cors",
-        credentials: 'include',
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
-    })
+        body: JSON.stringify(data)
+      }
+    )
     .then(response => {
       console.log(response)
       if(response.status === 200) {
@@ -48,12 +49,12 @@ export default class CreateTopic extends Component {
       return <Redirect to={this.state.redirect}/>
     }
     
-    if(!modelInstance.getLoggedIn() || this.state.error) {
+    if(!modelInstance.isLoggedIn() || this.state.error) {
       return <Redirect to="/"/>
     }
     return (
       <div>
-        <div>Create a new topic</div>
+        <h1>Create a new topic</h1>
         <form onSubmit={this.sendData}>
           <input placeholder="Title" name="Title"/>
           <input placeholder="Message" name="Post"/>

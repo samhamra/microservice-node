@@ -8,14 +8,14 @@ export default class Navbar extends Component {
     modelInstance.addObserver(this);
     this.state= {
       userName: "",
-      loggedIn: modelInstance.getLoggedIn()
+      loggedIn: modelInstance.isLoggedIn()
     }
   }
   
   update() {
     this.setState({
       userName: modelInstance.getUserName(),
-      loggedIn: modelInstance.getLoggedIn()
+      loggedIn: modelInstance.isLoggedIn()
     })
   }
   

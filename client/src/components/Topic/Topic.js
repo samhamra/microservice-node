@@ -8,11 +8,12 @@ export default class Topic extends Component {
     super()
     console.log(props.match.params)
     this.state = {
-      
+      path: `/f${props.match.params.forumId}/t${props.match.params.topicId}`
     }
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/f${this.props.match.params.forumId}/t${this.props.match.params.topicId}`, {
+    console.log(this.state)
+    fetch("http://localhost:3000" + this.state.path, {
       mode: "cors",
       credentials: 'include'
     })
@@ -51,6 +52,12 @@ export default class Topic extends Component {
                 <p>{post.timestamp}</p>
               </div>
             ))}
+          </div>
+          <div>
+            {modelInstance.isLoggedIn() &&
+              <Link to={this.state.path + "/createPost"}>Create new post </Link>
+            }
+            
           </div>
         </div>
       )

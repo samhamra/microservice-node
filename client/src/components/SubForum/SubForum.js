@@ -9,7 +9,7 @@ export default class SubForum extends Component {
     super()
     this.state = {
       data: {topics: []},
-      isLoggedIn: modelInstance.getLoggedIn()
+      isLoggedIn: modelInstance.isLoggedIn()
     }
     modelInstance.addObserver(this)
   }
@@ -35,7 +35,7 @@ export default class SubForum extends Component {
   
   update() {
     this.setState({
-      isLoggedIn: modelInstance.getLoggedIn()
+      isLoggedIn: modelInstance.isLoggedIn()
     })
   }
   

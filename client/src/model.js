@@ -13,7 +13,7 @@ class Model {
     this.notifyObservers(0);
   }
   
-  getLoggedIn() {
+  isLoggedIn() {
     return this.loggedIn
   }
   

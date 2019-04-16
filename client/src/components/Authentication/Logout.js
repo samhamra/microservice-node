@@ -6,21 +6,14 @@ export default class Login extends Component {
   
   componentDidMount() {
     fetch("http://localhost:3000/logout", {
-      method: "GET",
+      method: "POST",
       mode: "cors"
-    })
-    .then(response => {
-      if(response.statusText != "OK") {
-        throw new Error('logout failed');
-      } else {
-        modelInstance.setLogin(false)
-      }
     })
     .catch(error => console.log(error))
  }
   render() {
     return (
-      <Redirect to="/"/>
+      <p>Log out screen</p>
     )
   }
 }
