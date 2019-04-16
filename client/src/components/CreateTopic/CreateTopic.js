@@ -12,7 +12,7 @@ export default class CreateTopic extends Component {
   sendData(e) {
     e.preventDefault()
     let data = {title: e.target.elements[0].value, post: e.target.elements[1].value}
-    fetch(`http://localhost:1337/f${this.props.match.params}/createTopic`, {
+    fetch(`http://localhost:3000/f${this.props.match.params}/createTopic`, {
         method: "POST",
         mode: "cors", 
         headers: {

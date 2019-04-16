@@ -5,7 +5,7 @@ import {modelInstance} from "../../model.js"
 export default class Login extends Component {
   
   componentDidMount() {
-    fetch("http://localhost:1337/logout", {
+    fetch("http://localhost:3000/logout", {
       method: "GET",
       mode: "cors"
     })

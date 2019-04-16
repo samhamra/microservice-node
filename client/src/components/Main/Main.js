@@ -11,7 +11,7 @@ export default class Main extends Component {
     }
   }
   componentDidMount() {
-    fetch('http://localhost:1337/getAllSubForums', {
+    fetch('http://localhost:3000/getAllSubForums', {
       mode: "cors"
     })
     .then(response => response.json())

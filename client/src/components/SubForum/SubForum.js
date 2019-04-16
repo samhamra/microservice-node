@@ -14,7 +14,7 @@ export default class SubForum extends Component {
     modelInstance.addObserver(this)
   }
   componentDidMount() {
-    fetch(`http://localhost:1337/f${this.props.match.params.id}`, {
+    fetch(`http://localhost:3000/f${this.props.match.params.id}`, {
       mode: "cors"
     })
     .then(response => response.json())

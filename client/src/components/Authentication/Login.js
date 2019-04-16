@@ -16,34 +16,30 @@ export default class Login extends Component {
     e.preventDefault();
     console.log("login")
     let data = {username: e.target.elements[0].value, password: e.target.elements[1].value}
-    fetch("http://localhost:1337/login", {
+    fetch("http://localhost:3000/login", {
         method: "POST",
-        mode: "cors", 
+        mode: "cors",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
     })
     .then(response => {
+      console.log(response)
       if(response.status === 200) {
-        return response.json()
-      } else if(response.status === 401) {
+        modelInstance.setLogin(true, response.username);
         this.setState({
-          error: "Wrong username or password"
+          redirect: true
         })
+      } else if(response.status === 401) {
+        throw new Error("error")
       }
      })
-     .then(response => {
-       if(response) {
-         modelInstance.setLogin(true, response.username);
-         this.setState({
-           redirect: true
-         })
-       }
-     })
     .catch(error => {
-      //Handle network error
-      console.log(error); console.log("error caught")
+      this.setState({
+        error: "Wrong username or password"
+      })
     })
   }
   render() {
