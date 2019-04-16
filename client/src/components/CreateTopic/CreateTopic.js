@@ -14,13 +14,14 @@ export default class CreateTopic extends Component {
     let data = {title: e.target.elements[0].value, post: e.target.elements[1].value}
     fetch(`http://localhost:3000/f${this.props.match.params}/createTopic`, {
         method: "POST",
-        mode: "cors", 
+        mode: "cors",
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
     })
-    .then(response => console.log(response))
+    .then(response => console.log(response.status))
     .catch(error=> console.log(error))
   }
   

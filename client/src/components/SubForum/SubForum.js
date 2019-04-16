@@ -15,7 +15,8 @@ export default class SubForum extends Component {
   }
   componentDidMount() {
     fetch(`http://localhost:3000/f${this.props.match.params.id}`, {
-      mode: "cors"
+      mode: "cors",
+      credentials: 'include'
     })
     .then(response => response.json())
     .then(response => {
@@ -28,7 +29,9 @@ export default class SubForum extends Component {
       console.log(error)
     })
   }
-  
+  componentWillUnmount() {
+    modelInstance.removeObserver(this)
+  }
   
   update() {
     this.setState({

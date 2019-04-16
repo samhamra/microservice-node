@@ -26,16 +26,18 @@ export default class Login extends Component {
         body: JSON.stringify(data),
     })
     .then(response => {
-      console.log(response)
       if(response.status === 200) {
-        modelInstance.setLogin(true, response.username);
-        this.setState({
-          redirect: true
-        })
+        return response.json()
       } else if(response.status === 401) {
         throw new Error("error")
       }
      })
+    .then(response=> {
+      modelInstance.setLogin(true, response.username);
+      this.setState({
+        redirect: true
+      })
+    })
     .catch(error => {
       this.setState({
         error: "Wrong username or password"

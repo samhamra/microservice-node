@@ -6,15 +6,47 @@ const uuid = require('uuid/v4')
 const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const users = []
+
+passport.use(new LocalStrategy(
+  { usernameField: 'username' },
+  (username, password, done) => {
+    console.log(username, password)
+    let idx = users.findIndex(user => username === user.username && password === user.password);
+    if(idx !== -1) {
+      console.log('Local strategy returned true')
+      return done(null, users[idx])
+    } else {
+      console.log('Local strategy returned false')
+      return done(null, false)
+    }
+  }
+));
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+
+passport.deserializeUser((id, done) => {
+  console.log('Inside deserializeUser callback')
+  console.log(`The user id passport saved in the session file store is: ${id}`)
+  let user;
+  if(id<users.length) {
+    user = users[id]
+  } else {
+    user = false;
+  }
+  done(null, users[id]);
+});
+
 const app = express()
 const port = 3000
 const TWO_HOURS = 1000 * 60 * 60 *2;
 //https://medium.com/@evangow/server-authentication-basics-express-sessions-passport-and-curl-359b7456003d
 app.use(session({
   genid: (req) => {
-    console.log('Inside the session middleware')
-    console.log(req.sessionID)
-    return uuid() // use UUIDs for session IDs
+    return uuid()
   },
   store: new FileStore(),
   secret: 'keyboard cat',
@@ -24,58 +56,60 @@ app.use(session({
     maxAge: TWO_HOURS
   }
 }))
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3001'}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 var forumData = [{id: 0, name:"Family", topics: [{title: "I love kids", post: "I really do", author: "Sam", timestamp: Date(), id: 0,  posts:[{post: "I agree", author:"Elin", id: 0, timestamp: Date()}] }]}, {id: 1, name:"Sports", topics: []}]
 
-var userData= [];
 
-
-
-const users = [
-  {id: '2f24vvg', email: 'test@test.com', password: 'password'}
-]
-
-passport.use(new LocalStrategy(
-  { usernameField: 'username' },
-  (username, password, done) => {
-    const user = users[0] 
-    if(email === user.email && password === user.password) {
-      console.log('Local strategy returned true')
-      return done(null, user)
-    }
-  }
-));
 app.post('/register', function(req, res) {
+  console.log(req.sessionID)
   console.log(req.body)
-  if(userData.some(user=> user.username === req.body.username)) {
-    res.status(409).send("Username already exists")
+  if(users.some(user=> user.username === req.body.username)) {
+    res.send(409)
   } else {
-    userData.push(req.body)
-    res.status(200).send("User created");
+    let user = {username: req.body.username, password: req.body.password, id: users.length}
+    users.push(user)
+    res.send(200);
   }
   console.log("register");
-  console.log(userData)
+  console.log(users)
 })
 
-app.post('/login', function(req, res) {
+app.post('/login', (req, res, next) => {
+  console.log(req.sessionID)
+  passport.authenticate('local', (err, user, info) => {
+    if(info) {return res.send(info.message)}
+    if (err) { console.log(err); return next(err); }
+    if (!user) { console.log("no user found"); return res.sendStatus(401) }
+    req.login(user, (err) => {
+      
+      if (err) { console.log(err); return next(err); }
+      console.log(user)
+      console.log("authed")
+      return res.status(200).send({username: user.username})
+    })
+  })(req, res, next);
+})
 
-  console.log(userData)
-  console.log(req.body)
-  if(userData.some(user=> user.username === req.body.username && user.password === req.body.password)) {
-    console.log("logged in")
-    req.session.key = "hej"
+
+
+
+app.get('/authrequired', (req, res) => {
+  console.log('Inside GET /authrequired callback')
+  console.log(`User authenticated? ${req.isAuthenticated()}`)
+  if(req.isAuthenticated()) {
     res.send(200)
   } else {
-    console.log("bad credentials")
     res.send(401)
   }
-  console.log("login")
 })
+
+
 
 app.get('/logout',(req,res) => {
     req.session.destroy((err) => {
@@ -95,12 +129,20 @@ app.get('/getAllSubForums', function(req, res) {
 });
 
 app.get('/f:subForumId', function(req, res) {
-  res.send(forumData.filter(a => a.id == req.params.subForumId)[0])
+  res.send(forumData[req.params.subForumId])
+  
 })
 
 app.post('/f:subForumId/createTopic', function(req, res) {
-
-  console.log(req.session)
+  console.log(req.sessionID)
+  console.log(`User authenticated? ${req.isAuthenticated()}`)
+  if(req.isAuthenticated()) {
+    
+    res.send(200)
+  } else {
+    res.send(401)
+  }
+  console.log(req.body)
 })
 
 app.listen(port, (err) => {
