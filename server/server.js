@@ -50,8 +50,8 @@ app.use(session({
   },
   store: new FileStore(),
   secret: 'keyboard cat',
-  resave: false,
   saveUninitialized: false,
+  resave: false,
   cookie: {
     maxAge: TWO_HOURS
   }
@@ -113,10 +113,14 @@ app.post('/login', (req, res, next) => {
 })
 
 app.post('/logout',(req,res) => {
-    req.logout()
-    console.log("logged out")
-    res.end()
-  })
+  req.logout();
+  req.session.destroy(function (err) {
+    if (err) {
+      return next(err);
+    } 
+  });
+  res.end()
+})
 
 app.get('/f', function(req, res) {
   console.log(req.sessionID)
@@ -127,9 +131,9 @@ app.get('/f', function(req, res) {
 
 app.get('/f:forumId', function(req, res) {
   console.log(req.params.forumId)
-  res.send(forum[req.params.forumId])
-  
+  res.send(forum[req.params.forumId])  
 })
+
 
 app.post('/f:forumId', function(req, res) {
   console.log("create topic")
