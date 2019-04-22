@@ -6,7 +6,12 @@ const uuid = require('uuid/v4')
 const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const users = []
+const fs = require('fs');
+var users = [];
+fs.readFile('users.json', (err, data) => {
+  if (err) throw err;
+  users = JSON.parse(data);
+});
 
 passport.use(new LocalStrategy(
   { usernameField: 'username' },
@@ -62,59 +67,22 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const forumNames = ["Sports", "Science", "Education", "Hunting", "Politics", "Culture", "Crime", "Technology", "Nature", "Travelling", "Clothing", "Hunting", "Vehicles", "Computers", "Extra", "Testing", "Testing again", "Testing", "Testing", "Testing", "Testing", "Testing","Testing","Testing","Testing"]
 
 
-var forum = [
-  {
-    id: 0, 
-    name:"Family", 
-    topics: [{
-      title: "I love kids", 
-      author: "Sam",
-      timestamp: new Date(),
-      views: 2,
-      id: 0,
-      posts:[{
-        post: "I agree", 
-        author:"Sam", 
-        id: 0, 
-        timestamp: new Date()
-      },
-      {
-        post: "I agree too", 
-        author:"Sam", 
-        id: 1, 
-        timestamp: new Date()
-      }
-    ] 
-  },
-  {
-    title: "I love balls", 
-    author: "Sam",
-    views: 20,
-    timestamp: new Date(),
-    id: 1,
-    posts:[{
-      post: "I agree", 
-      author:"Sam", 
-      id: 0, 
-      timestamp: new Date()
-    },
-    {
-      post: "I agree too", 
-      author:"Sam", 
-      id: 1, 
-      timestamp: new Date()
-    }
-  ] 
-  }]
-  }
-]
+var forum = []
 
-forumNames.forEach(name => {
-  forum.push({id: forum.length, name: name, topics: []})
-}) 
+fs.readFile('forum.json', (err, data) => {
+  if (err) throw err;
+  forum = JSON.parse(data);
+});
+
+
+
+// const forumNames = ["Sports", "Science", "Education", "Hunting", "Politics", "Culture", "Crime", "Technology", "Nature", "Travelling", "Clothing", "Hunting", "Vehicles", "Computers", "Extra", "Testing", "Testing again", "Testing", "Testing", "Testing", "Testing", "Testing","Testing","Testing","Testing"]
+// 
+// forumNames.forEach(name => {
+//   forum.push({id: forum.length, name: name, topics: []})
+// }) 
 
 
 app.post('/register', function(req, res) {
@@ -218,3 +186,18 @@ app.listen(port, (err) => {
   }
   console.log(`server is listening on ${port}`)
 })
+
+process.stdin.resume();//so the program will not close instantly
+
+function exitHandler() {
+  console.log("shutting down")
+  fs.writeFileSync('users.json', JSON.stringify(users));  
+  fs.writeFileSync('forum.json', JSON.stringify(forum))
+  process.exit();
+}
+
+
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler);
+
