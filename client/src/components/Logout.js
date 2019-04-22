@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import "./Login.css"
 import { Redirect } from 'react-router-dom';
-import {modelInstance} from "../../model.js"
+import {modelInstance} from "../model.js"
 
 export default class Logout extends Component {
   componentDidMount() {

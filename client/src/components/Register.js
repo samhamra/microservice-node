@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
-import "./Register.css"
+import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
+
+const Container = styled.form`
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`
+const Wrapper = styled.div`
+  margin: 2em 2em 2em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`
+const Error= styled.p`
+  color: red;
+  font-weight: bold;
+  padding-top: 2em
+`
+
+
 
 export default class Register extends Component {
   constructor(props) {
     super()
     this.state = {
-      
     }
     this.register = this.register.bind(this)
   }
@@ -40,8 +61,7 @@ export default class Register extends Component {
       }
     })
     .catch(error => {
-      //Handle network error
-      console.log(error); console.log("error caught")
+      this.setState({error: error})
     })
   }
   
@@ -50,14 +70,15 @@ export default class Register extends Component {
       return <Redirect to="/login"/>
     }
     return (
-      <div> 
-        <form onSubmit={this.register}>
+      <Wrapper> 
+        <h2>Register</h2>
+        <Container onSubmit={this.register}>
           <input placeholder="Username"/>
           <input placeholder="Password"/>
-          <button type="submit">Sign up</button>
-        </form>
-        <p> {this.state.error}</p>
-      </div>
+          <button types="submit">Sign up</button>
+        </Container>
+        <Error> {this.state.error}</Error>
+      </Wrapper>
     )
   }
 }

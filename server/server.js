@@ -62,6 +62,8 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
+const forumNames = ["Sports", "Science", "Education", "Hunting", "Politics", "Culture", "Crime", "Technology", "Nature", "Travelling", "Clothing", "Hunting", "Vehicles", "Computers", "Extra", "Testing", "Testing again", "Testing", "Testing", "Testing", "Testing", "Testing","Testing","Testing","Testing"]
+
 
 var forum = [
   {
@@ -69,24 +71,50 @@ var forum = [
     name:"Family", 
     topics: [{
       title: "I love kids", 
-      post: "I really do",
       author: "Sam",
-      timestamp: Date(),
+      timestamp: new Date(),
+      views: 2,
       id: 0,
       posts:[{
         post: "I agree", 
-        author:"Elin", 
+        author:"Sam", 
         id: 0, 
-        timestamp: Date()
-      }] 
-    }]
+        timestamp: new Date()
+      },
+      {
+        post: "I agree too", 
+        author:"Sam", 
+        id: 1, 
+        timestamp: new Date()
+      }
+    ] 
   },
   {
+    title: "I love balls", 
+    author: "Sam",
+    views: 20,
+    timestamp: new Date(),
     id: 1,
-    name:"Sports", 
-    topics: []
+    posts:[{
+      post: "I agree", 
+      author:"Sam", 
+      id: 0, 
+      timestamp: new Date()
+    },
+    {
+      post: "I agree too", 
+      author:"Sam", 
+      id: 1, 
+      timestamp: new Date()
+    }
+  ] 
+  }]
   }
 ]
+
+forumNames.forEach(name => {
+  forum.push({id: forum.length, name: name, topics: []})
+}) 
 
 
 app.post('/register', function(req, res) {
@@ -125,7 +153,17 @@ app.post('/logout',(req,res) => {
 app.get('/f', function(req, res) {
   console.log(req.sessionID)
   res.send(forum.map(a => {
-    return {id: a.id, name: a.name}
+    console.log(a.topics)
+    var lastTopic = {}
+    if(a.topics.length > 0) {
+      lastTopic = {
+        id: a.topics[a.topics.length-1].id,
+        name: a.topics[a.topics.length-1].title,
+        user: a.topics[a.topics.length-1].posts[a.topics[a.topics.length-1].posts.length-1].author,
+        timestamp: a.topics[a.topics.length-1].posts[a.topics[a.topics.length-1].posts.length-1].timestamp
+      }
+    }
+    return {id: a.id, name: a.name, topics: a.topics.length, posts: a.topics.reduce((acc, curr) => ({x: acc.x+ curr.posts.length}), {x: 0}).x, latest: lastTopic}
   }))
 });
 
@@ -143,7 +181,7 @@ app.post('/f:forumId', function(req, res) {
     console.log(req.params)
     var currentForum = forum[req.params.forumId];
     console.log(currentForum)
-    currentForum.topics.push({title: req.body.title, post: req.body.post, author: req.user.username, timestamp: Date(), id: currentForum.topics.length, posts:[]})
+    currentForum.topics.push({title: req.body.title, author: req.user.username, timestamp: new Date(), id: currentForum.topics.length, views: 0, posts:[{id: 0, post: req.body.post, author: req.user.username, timestamp: new Date()}]})
     res.status(200).json({path: `/f${currentForum.id}/t${currentForum.topics.length-1}` })
   } else {
     res.sendStatus(401)
@@ -151,13 +189,21 @@ app.post('/f:forumId', function(req, res) {
 })
 
 app.get('/f:forumId/t:topicId', function(req, res) {
-  res.send(forum[req.params.forumId].topics[req.params.topicId])
+  var found = forum[req.params.forumId].topics.find(a => (a.id == req.params.topicId))
+
+  if(found) {
+    found.views++;
+    res.send(found)
+  } else {
+    res.sendStatus(404)
+  }
 })
 
 app.post('/f:forumId/t:topicId', function(req, res) {
   if(req.isAuthenticated()) {
     let currentTopic = forum[req.params.forumId].topics[req.params.topicId];
-    currentTopic.posts.push({post: req.body.post, author: req.user.username, timestamp: Date(), id: currentTopic.posts.length})
+    currentTopic.posts.push({post: req.body.post, author: req.user.username, timestamp: new Date(), id: currentTopic.posts.length})
+    forum[req.params.forumId].topics = forum[req.params.forumId].topics.concat(forum[req.params.forumId].topics.splice(req.params.topicId, 1));
     res.sendStatus(200)
   } else {
     res.sendStatus(401)

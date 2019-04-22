@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './CreateTopic.css'
-import {modelInstance} from "../../model.js"
+import {modelInstance} from "../model.js"
 import { Link, Redirect } from 'react-router-dom';
 
 export default class CreateTopic extends Component {

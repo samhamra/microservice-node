@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {modelInstance} from "../../model.js"
+import {modelInstance} from "../model.js"
 import { Link, Redirect } from 'react-router-dom';
 
 export default class Topic extends Component {
@@ -40,9 +40,6 @@ export default class Topic extends Component {
         <div>
           <div style={{border: '1px solid black'}} >
             <h1>{this.state.data.title}</h1>
-            <p>{this.state.data.post}</p>
-            <p>{this.state.data.author}</p>
-            <p>{this.state.data.timestamp}</p>
           </div>
           <div>
             {this.state.data.posts.map(post => (

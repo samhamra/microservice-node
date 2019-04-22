@@ -1,7 +1,32 @@
 import React, { Component } from 'react';
-import "./Navbar.css"
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import {modelInstance} from "../../model.js"
+import {modelInstance} from "../model.js"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+
+const Sticky = styled.div`
+position: -webkit-sticky;
+position: sticky;
+top: 0px;
+background: black;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+padding: 0 2em;
+height: 2.5em;
+color: white
+`
+
+const AccountName =  styled.p`
+font-weight: bold;
+display: inline;
+margin: 0;
+padding-right: 1em;
+`
+
+
 export default class Navbar extends Component {
   constructor(props) {
     super()
@@ -22,13 +47,14 @@ export default class Navbar extends Component {
   render() {
     const isLoggedIn = this.state.isLoggedIn;
     return (
-      <div>
+      <Sticky>
         <div>
           <Link to="/">Main</Link>
         </div>
         {this.state.loggedIn ? (
           <div>
-            <p>Username: {this.state.userName}</p>
+            <FontAwesomeIcon icon={faUser} />
+            <AccountName> {this.state.userName} </AccountName>
             <Link to="/logout"> Log out</Link>
           </div>
         ) : (
@@ -37,7 +63,7 @@ export default class Navbar extends Component {
             <Link to="/login"> Log in</Link>
           </div>
         )}
-      </div>
+      </Sticky>
     )
   }
 }

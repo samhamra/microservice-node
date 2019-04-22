@@ -1,7 +1,29 @@
 import React, { Component } from 'react';
-import "./Login.css"
 import { Link, Redirect } from 'react-router-dom';
-import {modelInstance} from "../../model.js"
+import {modelInstance} from "../model.js"
+import styled from 'styled-components';
+
+
+const Container = styled.form`
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`
+const Wrapper = styled.div`
+  margin: 2em 2em 2em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`
+const Error= styled.p`
+  color: red;
+  font-weight: bold;
+  padding-top: 2em
+`
+
 export default class Login extends Component {
   constructor(props) {
     super()
@@ -49,14 +71,15 @@ export default class Login extends Component {
       return <Redirect to="/"/>
     }
     return (
-      <div> 
-        <form onSubmit={this.login}>
+      <Wrapper>
+        <h2>Login</h2>
+        <Container onSubmit={this.login}>
           <input placeholder="Username"/>
           <input placeholder="Password"/>
-          <button type="submit">Log in</button>
-        </form>
-        <p> {this.state.error}</p>
-      </div>
+          <button types="submit">Sign up</button>
+        </Container>
+        <Error> {this.state.error}</Error>
+      </Wrapper>
     )
   }
 }
