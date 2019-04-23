@@ -2,20 +2,37 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 
-const Container = styled.form`
-  height: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-`
-const Wrapper = styled.div`
+
+const Container = styled.div`
   margin: 2em 2em 2em 2em;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
 `
+const H2 = styled.h2`
+  padding: .3em 0em;
+  text-align: center
+`
+const Inner = styled.div`
+  background: white;
+  width: 226px;
+
+`
+const Button = styled.button`
+  margin-top: 1em;
+`
+
+
+
+const Form = styled.form`
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`
+
 const Error= styled.p`
   color: red;
   font-weight: bold;
@@ -70,15 +87,18 @@ export default class Register extends Component {
       return <Redirect to="/login"/>
     }
     return (
-      <Wrapper> 
-        <h2>Register</h2>
-        <Container onSubmit={this.register}>
-          <input placeholder="Username"/>
-          <input placeholder="Password"/>
-          <button types="submit">Sign up</button>
-        </Container>
+      
+      <Container>
+        <Inner>
+        <H2>Sign up</H2>
+        <Form onSubmit={this.register}>
+          <input required placeholder="Username"/>
+          <input required type="password" placeholder="Password"/>
+          <Button types="submit">Sign up</Button>
+        </Form>
         <Error> {this.state.error}</Error>
-      </Wrapper>
+        </Inner>
+      </Container>
     )
   }
 }

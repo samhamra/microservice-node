@@ -5,13 +5,14 @@ import styled from 'styled-components';
 
 
 const Tr= styled.tr`
-  background: ${props => props.isEven ? "white" : "lightgray"};
+  background: ${props => props.isEven ? "white" : "#DBD7D6"};
 `
 const Table = styled.table`
   width: 75%;
 `
 const Container = styled.div`
   padding: 2em;
+  background: white;
 `
 const Td = styled.td`
   border-bottom: 1px solid gray;
@@ -60,16 +61,11 @@ export default class SubForum extends Component {
     const topics= this.state.data.topics.reverse().map((topic,i)=> {
       return (
         <Tr isEven={i%2 === 0} key={i}>
-          {console.log(topic)}
           <Td>
             <Link key={topic.id} to={`/f${this.props.match.params.id}/t${topic.id}`}>{topic.title}</Link>
           </Td>
-          <Td>
-            {topic.posts.length}
-          </Td>
-          <Td>
-            {topic.views}
-          </Td>
+          <Td>{topic.posts.length}</Td>
+          <Td>{topic.views}</Td>
           <Td>
             By: {topic.posts[topic.posts.length-1].author} at {topic.posts[topic.posts.length-1].timestamp}
           </Td>

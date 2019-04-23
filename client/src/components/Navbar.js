@@ -6,24 +6,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Sticky = styled.div`
-position: -webkit-sticky;
-position: sticky;
-top: 0px;
-background: black;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: space-between;
-padding: 0 2em;
-height: 2.5em;
-color: white
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  background: #08090A;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2em;
+  height: 2.5em;
+  color: white
+`
+
+const Nav = styled.nav`
+  font-family: Courier;
+  font-size: 3vh;
 `
 
 const AccountName =  styled.p`
-font-weight: bold;
-display: inline;
-margin: 0;
-padding-right: 1em;
+  font-weight: bold;
+  display: inline;
+  margin: 0;
+  padding-right: 1em;
 `
 
 
@@ -48,20 +53,24 @@ export default class Navbar extends Component {
     const isLoggedIn = this.state.isLoggedIn;
     return (
       <Sticky>
-        <div>
-          <Link to="/">Main</Link>
-        </div>
+        
+        <Nav>
+          <Link to="/">
+            Forum
+          </Link>
+        </Nav>
         {this.state.loggedIn ? (
-          <div>
+          <Nav>
             <FontAwesomeIcon icon={faUser} />
             <AccountName> {this.state.userName} </AccountName>
             <Link to="/logout"> Log out</Link>
-          </div>
+          </Nav>
         ) : (
-          <div>
-            <Link to="/register">Sign up</Link> 
-            <Link to="/login"> Log in</Link>
-          </div>
+          <Nav>
+            <Link to="/register">Sign up </Link>
+              |
+            <Link to="/login"> Login</Link>
+          </Nav>
         )}
       </Sticky>
     )

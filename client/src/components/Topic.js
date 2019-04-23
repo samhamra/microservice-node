@@ -12,7 +12,6 @@ export default class Topic extends Component {
     }
   }
   componentDidMount() {
-    console.log(this.state)
     fetch("http://localhost:3000" + this.state.path, {
       mode: "cors",
       credentials: 'include'
@@ -32,7 +31,9 @@ export default class Topic extends Component {
     })
   }
   render() {
-    console.log(this.state.data)
+    if(this.state.error) {
+      return (<p>Something happened, try again later</p>)
+    }
     
     return (
       <div> 
@@ -57,9 +58,7 @@ export default class Topic extends Component {
             
           </div>
         </div>
-      )
-      }
-      
+      )}  
       </div>
     )
   }

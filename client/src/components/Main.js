@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import spaceman from '../spaceman.png'
 
 const RightTd = styled.td`
-  border: 0.5px solid gray;
+  border: 0.5px solid #DBD7D6;
   width: 50%
   background: #e3e3e3;
 `
 const LeftTd = styled.td`
-  border: 0.5px solid gray;
+  border: 0.5px solid #DBD7D6;
   width: 50%
   background: #eff0f1;
 `
 
 const Container = styled.div`
   padding: 2em;
+  display: flex;
+  flex-direction: row;
 `
 const Table = styled.table`
-  width: 75%;
+  width: 80%;
 `
 
+const Wrapper = styled.div`
+  width: 20%
+  display: flex;
+  justify-content: center;
+`
 
 const Outer = styled.div`
   display: flex;
@@ -28,6 +35,12 @@ const Outer = styled.div`
   padding: 0.5em;
 `
 
+const Img = styled.img`
+  height: 15vw;
+  position: sticky;
+  top: 1em;
+  padding-top: 1em;
+`
 
 
 export default class Main extends Component {
@@ -92,6 +105,9 @@ export default class Main extends Component {
             {subForums}
           </tbody>
         </Table>
+        <Wrapper>
+          <Img src={spaceman} />
+        </Wrapper>
       </Container>
     )
   }
