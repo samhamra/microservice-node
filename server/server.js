@@ -69,13 +69,6 @@ fs.readFile('forum.json', (err, data) => {
   forum = JSON.parse(data);
 });
 
-const forumNames = ["Sports", "Science", "Education", "Hunting", "Politics", "Culture", "Crime", "Technology", "Nature", "Travelling", "Clothing", "Hunting", "Vehicles", "Computers", "Extra", "Testing", "Testing again", "Testing", "Testing", "Testing", "Testing", "Testing","Testing","Testing","Testing"]
-
-forumNames.forEach(name => {
-  forum.push({id: forum.length, name: name, topics: []})
-}) 
-
-
 app.post('/register', function(req, res) {
   if(users.some(user=> user.username === req.body.username)) {
     res.send(409)
