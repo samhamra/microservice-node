@@ -7,24 +7,49 @@ const BlackLink = styled(Link)`
   color: black;
   :hover {
     color: black;
+    font-weight: bold;
   }
 `
 const Tr= styled.tr`
-  background: ${props => props.isEven ? "white" : "#DBD7D6"};
+  background-color: ${props => props.isEven ? "rgba(255,255,255, 0.8)" : "rgba(219,219,219, 0.8)"};
+`
+const HeaderRow = styled.tr`
+  background-color: rgba(192,192,192, 1);
+  padding-left: ${props => props.first ? "0.8em" : "0em"};
 `
 const Table = styled.table`
-  width: 100%
+  width: 100%;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  font-family: Forum;
+`
+const Th = styled.th`
+  padding-left: ${props => props.first ? "0.8em" : "0em"};
 `
 const Container = styled.div`
-  background: white;
-  width: 80%
+  width: 80%;
+  margin: auto;
+  @media (max-width: 700px) {
+    width: 90%;
+  }
 `
+const Button = styled.button`
+  margin-bottom: 1em;
+  margin-left: 1em;
+`
+
 const Td = styled.td`
   border-bottom: 1px solid gray;
   height: 3em;
+  padding-left: ${props => props.first ? "0.8em" : "0em"};
+  
 `
 const TBody = styled.tbody`
   border-top: 1px solid gray;
+  margin-left: 1em;
+`
+const THead = styled.thead`
+  border-top: 1px solid black;
 `
 
 export default class SubForum extends Component {
@@ -70,13 +95,13 @@ export default class SubForum extends Component {
     const topics= this.state.data.topics.reverse().map((topic,i)=> {
       return (
         <Tr isEven={i%2 === 0} key={i}>
-          <Td>
+          <Td first>
             <BlackLink key={topic.id} to={`/f/${this.props.match.params.forumId}/t/${topic.id}`}>{topic.title}</BlackLink>
           </Td>
           <Td>{topic.posts.length}</Td>
           <Td>{topic.views}</Td>
           <Td>
-            By: {topic.posts[topic.posts.length-1].author} at {topic.posts[topic.posts.length-1].timestamp}
+            By: {topic.posts[topic.posts.length-1].author} at {topic.posts[topic.posts.length-1].timestamp.substring(0,10)}
           </Td>
         </Tr>
     )})
@@ -84,14 +109,14 @@ export default class SubForum extends Component {
     return (
       <Container> 
         <Table>
-          <thead>
-            <tr>
-              <th>Topic</th>
-              <th>Posts</th>
-              <th>Views</th>
-              <th>Latest post</th>
-            </tr>
-          </thead>
+          <THead>
+            <HeaderRow>
+              <Th first>Topic</Th>
+              <Th>Posts</Th>
+              <Th>Views</Th>
+              <Th>Latest post</Th>
+            </HeaderRow>
+          </THead>
           <TBody>
             {topics}
           </TBody>
@@ -100,9 +125,8 @@ export default class SubForum extends Component {
         
         {
           this.state.isLoggedIn &&  
-            <Link to={"/f/" + this.props.match.params.forumId + "/createTopic"}>Create new topic </Link>
-        }
-        <Link to="/">Go back to main</Link>
+            <Link to={"/f/" + this.props.match.params.forumId + "/createTopic"}><Button>Create new topic</Button> </Link>
+        } 
       </Container>
     )
   }

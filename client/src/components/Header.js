@@ -6,7 +6,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
   color:white;
 `
 const Title = styled.h1`
@@ -20,7 +19,7 @@ export default class Header extends Component {
   render() {
     return (
       <Container className="applogo">
-        <Title>Space Forum</Title>
+        <Title>SpaceForum</Title>
       </Container>
     )
   }

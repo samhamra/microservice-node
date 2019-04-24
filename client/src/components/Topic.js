@@ -6,15 +6,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Container = styled.div`
-  background: white;
-  width: 80%
+  width: 80%;
+  margin: auto;
+  @media (max-width: 700px) {
+    width: 90%;
+  }
 `
 const User = styled.div`
-  width: 30%
+  min-width: 20%;
+  border-right: 1px solid black;
+  text-align: center;  
 `
+const Button = styled.button`
+  margin-left: 1em;
+`
+
 const Avatar = styled.div`
   height: 60%
-  background: green
+  border-bottom: 1px solid black;
+  font-size: 6vw;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 700px) {
+    display: none;
+  }
 `
 
 const Data = styled.div`
@@ -22,9 +40,14 @@ const Data = styled.div`
 `
 
 const Message = styled.div`
-  padding: 0.5em;
+  padding: 1em;
 `
 const Username = styled.p`
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+`
+const Timestamp = styled.p`
   margin: 0;
   padding: 0;
 `
@@ -33,13 +56,16 @@ const Post = styled.div`
   display: flex;
   border: 1px solid black;
   min-height: 15vw
+  margin-bottom: 2vh;
+  background: white;
+  opacity: 0.8
+  font-family: Forum
 `
 
 export default class Topic extends Component {
 
   constructor(props) {
     super()
-    console.log(props.match.params)
     this.state = {
       path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
     }
@@ -78,10 +104,11 @@ export default class Topic extends Component {
               <Post key={post.id}>
                 <User>
                   <Avatar>
+                    <FontAwesomeIcon icon={faUser} />
                   </Avatar>
                   <Data>
                     <Username>{post.author}</Username>
-                    <Username>{post.timestamp}</Username>
+                    <Timestamp>{post.timestamp.substring(0,10)}</Timestamp>
                   </Data>
                 </User>
                 <Message>
@@ -92,7 +119,7 @@ export default class Topic extends Component {
           </div>
           <div>
             {modelInstance.isLoggedIn() &&
-              <Link to={this.state.path + "/createPost"}>Create new post </Link>
+              <Link to={this.state.path + "/createPost"}><Button>Create new post </Button></Link>
             }
             
           </div>

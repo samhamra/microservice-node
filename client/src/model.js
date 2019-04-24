@@ -8,6 +8,8 @@ class Model {
     this.topicName = null;
     this.topicId = 0;
     this.observers = []
+    this.createTopic = false;
+    this.createPost = false;
   }
   setLogin(logged, username) {
     this.loggedIn = logged;
@@ -24,6 +26,20 @@ class Model {
     this.forumId = id;
     this.forumName = name;
     this.notifyObservers(1)
+  }
+  getCreateTopic() {
+    return this.createTopic;
+  }
+  setCreateTopic(val) {
+    this.createTopic = val;
+    this.notifyObservers(3);
+  }
+  getCreatePost() {
+    return this.createPost;
+  }
+  setCreatePost(val) {
+    this.createPost= val;
+    this.notifyObservers(4);
   }
   
   getForum() {

@@ -6,6 +6,9 @@ h1, h2, nav, a {
     user-select: none;
 }
 
+button {
+  -webkit-appearance: none;
+}
 
 #sky {
   background: -webkit-linear-gradient(#00111e 30%, #033d5e);

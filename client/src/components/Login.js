@@ -12,15 +12,24 @@ const Container = styled.div`
 `
 const H2 = styled.h2`
   padding: .3em 0em;
-  text-align: center
+  text-align: center;
+  font-family: Lobster
 `
-const Inner = styled.div`
-  background: white;
-  width: 226px;
 
+
+const Input = styled.input`
+  padding-left: 0.2em;
+  margin-bottom: ${props => props.second ? "1.5em" : "0.5em"};
 `
+
+const Inner = styled.div`
+  border: 1px solid black;
+  background-color: rgba(255,255,255, 0.8);
+  width: 226px;
+  box-shadow: 4px 4px 20px 4px #000000;
+`
+
 const Button = styled.button`
-  margin-top: 1em;
 `
 
 const Form = styled.form`
@@ -88,8 +97,8 @@ export default class Login extends Component {
         <Inner>
           <H2>Login</H2>
           <Form onSubmit={this.login}>
-            <input required placeholder="Username"/>
-            <input required type="password" placeholder="Password"/>
+            <Input required placeholder="Username"/>
+            <Input second required type="password" placeholder="Password"/>
             <Button types="submit">Login</Button>
           </Form>
           <Error> {this.state.error}</Error>

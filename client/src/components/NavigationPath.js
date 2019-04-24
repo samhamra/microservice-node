@@ -4,11 +4,34 @@ import styled from 'styled-components';
 import {modelInstance} from "../model.js"
 
 const Container = styled.div`
-  width: 80%
-  background: white
+  width: 80%;
+  @media (max-width: 700px) {
+    width: 90%;
+  }
+  margin: auto;
+  background: white;
+  display: flex;
+  flex-direction: columm;
+  align-items: center;
+  margin-bottom: 0.5em;
+  padding-left: 0.8em;
+  height: 1.8em;
+  opacity: 0.8;
+  font-family: Lobster;
 `
 const Title = styled.h1`
-  
+  padding-top: 0.4em;
+  font-size: 1.2em;
+`
+const BlackLink = styled(Link)`
+  color: black;
+  :hover {
+    color: black;
+  }
+`
+const Arrow = styled.span`
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 `
 
 
@@ -27,7 +50,12 @@ export default class NavigationPath extends Component {
     } else if(code===2) {
       let data = modelInstance.getTopic();
       this.setState({topicId: data.topicId, topicName: data.topicName})
+    } else if(code===3) {
+      this.setState({createTopic: modelInstance.getCreateTopic()})
+    } else if(code===4) {
+      this.setState({createPost: modelInstance.getCreatePost()})
     }
+    
   }
   
   componentWillUnmount() {
@@ -39,14 +67,32 @@ export default class NavigationPath extends Component {
     return (
       <Container>
         <Title>
-        <Link to={`/f`}>Forum</Link> 
+        <BlackLink to={`/f`}>Forum</BlackLink> 
         {
           this.state.forumName && (
           <>
-           <Link to={`/f/${this.state.forumId}`}>{this.state.forumName}</Link>
+           <Arrow>&rarr;</Arrow>
+           <BlackLink to={`/f/${this.state.forumId}`}>{this.state.forumName}</BlackLink>
+           {
+             this.state.createTopic && (
+               <>
+                <Arrow>&rarr;</Arrow> New topic 
+              </>
+             )
+           }
            {
              this.state.topicName && (
-             <Link to={`/f/${this.state.forumId}/t/${this.state.topicId}`}>{this.state.topicName}</Link>
+            <>      
+              <Arrow>&rarr;</Arrow>
+             <BlackLink to={`/f/${this.state.forumId}/t/${this.state.topicId}`}>{this.state.topicName}</BlackLink>
+             {
+               this.state.createPost && (
+                 <>
+                  <Arrow>&rarr;</Arrow> New post 
+                </>
+               )
+             }
+            </>
              )
            }
           </>

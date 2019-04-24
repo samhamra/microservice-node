@@ -10,7 +10,7 @@ const Sticky = styled.div`
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
-  background: #08090A;
+  background-color: rgba(8,9,10, 1);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -18,11 +18,12 @@ const Sticky = styled.div`
   padding: 0 2em;
   height: 2.5em;
   color: white
+  z-index: 1;
 `
 
 const Nav = styled.nav`
-  font-family: Courier;
-  font-size: 3vh;
+  font-family: Lobster;
+  font-size: 3vw;
 `
 
 const Brand = styled.div`
@@ -35,6 +36,7 @@ const AccountName =  styled.p`
   display: inline;
   margin: 0;
   padding-right: 1em;
+  font-family: Courier;
 `
 
 const Img = styled.img`
@@ -44,7 +46,7 @@ const Img = styled.img`
 
 const Title = styled.div`
   font-family: Rez;
-  font-size: 5vh;
+  font-size: 3vw;
 
 `
 
@@ -66,11 +68,13 @@ export default class Navbar extends Component {
     }
   }
   
-  update() {
-    this.setState({
-      userName: modelInstance.getUserName(),
-      loggedIn: modelInstance.isLoggedIn()
-    })
+  update(code) {
+    if(code === 0 ) {
+      this.setState({
+        userName: modelInstance.getUserName(),
+        loggedIn: modelInstance.isLoggedIn()
+      })
+    }
   }
   
   render() {
@@ -82,7 +86,7 @@ export default class Navbar extends Component {
           </div>
           <WhiteLink to="/">
             <Title>
-              Space Forum
+              SpaceForum
             </Title>
           </WhiteLink>
         </Brand>

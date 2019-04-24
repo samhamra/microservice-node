@@ -9,7 +9,6 @@ import CreateTopic from './CreateTopic'
 import {Route, Switch} from 'react-router-dom';
 
 const Container = styled.div`
-  padding-left: 2em;
 `
 const Title = styled.h1`
 
@@ -19,7 +18,6 @@ const Title = styled.h1`
 export default class Forum extends Component {
     
   render() {
-    console.log("forum")
     return (
       <Container>
         <NavigationPath/>

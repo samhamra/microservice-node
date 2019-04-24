@@ -14,16 +14,13 @@ import Topic from './components/Topic'
 import Forum from './components/Forum'
 import {Redirect, Route, BrowserRouter, Router } from 'react-router-dom';
 import styled from 'styled-components';
+
 const Container = styled.div`
-height: 100%;
-width: 100%
 `
 
 const Background = styled.canvas`
 position: fixed;
 z-index: -1;
-height: 100%;
-width: 100%
 `
 
 class App extends Component {

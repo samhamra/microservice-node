@@ -1,6 +1,43 @@
 import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
 import {Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  width: 80%;
+  margin: auto;
+  @media (max-width: 700px) {
+    width: 90%;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255,255,255, 1);
+  font-family: Forum;
+`
+const Button = styled.button`
+  width: 20%;
+  margin: auto;
+  white-space: nowrap
+`
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  font-family: Forum;
+`
+const Input = styled.input`
+  padding-left: 1em;
+  font-family: Forum;
+`
+const Textarea = styled.textarea`
+  padding-left: 1em;
+  resize: none;
+  height: 30vh;
+  font-family: Forum;
+`
 
 export default class CreateTopic extends Component {
   
@@ -10,6 +47,14 @@ export default class CreateTopic extends Component {
       
     }
     this.sendData = this.sendData.bind(this);
+  }
+  
+  componentDidMount() {
+    modelInstance.setCreateTopic(true);
+  }
+  componentWillUnmount() {
+    modelInstance.setCreateTopic(false);
+    console.log("createtopic to false")
   }
   sendData(e) {
     e.preventDefault()
@@ -52,14 +97,13 @@ export default class CreateTopic extends Component {
       return <Redirect to="/"/>
     }
     return (
-      <div>
-        <h1>Create a new topic</h1>
-        <form onSubmit={this.sendData}>
-          <input placeholder="Title" name="Title"/>
-          <input placeholder="Message" name="Post"/>
-          <button type="submit">Submit </button>
-        </form>
-      </div>
+      <Container>
+        <Form onSubmit={this.sendData}>
+          <Input placeholder="Title" name="Title"/>
+          <Textarea placeholder="Message" name="Post"/>
+          <Button type="submit">Create topic </Button>
+        </Form>
+      </Container>
     )
   }
 }

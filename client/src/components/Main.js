@@ -15,16 +15,30 @@ const LeftTd = styled.td`
   background: #eff0f1;
 `
 
+const Info = styled.div`
+  font-family: 'Forum', cursive;
+
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  margin: auto;
+  width: 80%;
+  @media (max-width: 700px) {
+    width: 90%;
+  }
 `
 const Table = styled.table`
-  width: 80%;
+  opacity: 0.8
+  width: 100%;
 `
 
 const Wrapper = styled.div`
   width: 20%
+  @media (max-width: 700px) {
+    width: 10%;
+  }
   display: flex;
   justify-content: center;
 `
@@ -43,6 +57,7 @@ const Img = styled.img`
 const BlackLink = styled(Link)`
   color: black;
   font-weight: bold;
+  font-family: Forum;
   :hover {
     color: black;
   }
@@ -85,19 +100,19 @@ export default class Main extends Component {
         <LeftTd>
           <Outer>
             <BlackLink to={"/f/" + subForum.id}>{subForum.name}</BlackLink>
-            <div>
+            <Info>
               Posts: {subForum.posts} Topics: {subForum.topics} 
-            </div>
+            </Info>
           </Outer>
         </LeftTd>
         <RightTd>
           <Outer>
             {subForum.latest.name &&
               <>
-              <BlackLink to={"/f/" + subForum.id + "/t/" + subForum.latest.id}>{subForum.latest.name}</BlackLink>
-              <div>
+              <BlackLink onClick={()=> modelInstance.setForum(subForum.id, subForum.name)}  to={"/f/" + subForum.id + "/t/" + subForum.latest.id}>{subForum.latest.name}</BlackLink>
+              <Info>
                 By: {subForum.latest.user} at {subForum.latest.timestamp.substring(0,10)}
-              </div>
+              </Info>
               </>
             }    
           </Outer>
@@ -112,9 +127,7 @@ export default class Main extends Component {
             {subForums}
           </tbody>
         </Table>
-        <Wrapper>
-          <Img src={spaceman} />
-        </Wrapper>
+
       </Container>
     )
   }
