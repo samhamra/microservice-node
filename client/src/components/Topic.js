@@ -3,7 +3,7 @@ import {modelInstance} from "../model.js"
 import { Link} from 'react-router-dom';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import avatar from '../avatar.png'
 
 const Container = styled.div`
   width: 80%;
@@ -106,7 +106,7 @@ export default class Topic extends Component {
               <Post key={post.id}>
                 <User>
                   <Avatar>
-                    <FontAwesomeIcon icon={faUser} />
+                    <img src={avatar}/>
                   </Avatar>
                   <Data>
                     <Username>{post.author}</Username>

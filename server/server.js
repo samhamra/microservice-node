@@ -61,6 +61,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 var forum = []
 
@@ -152,6 +153,10 @@ app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
     res.sendStatus(401)
   }
 })
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 
 
