@@ -121,7 +121,6 @@ app.post('/logout',(req,res) => {
 app.get('/f', function(req, res) {
   console.log(req.sessionID)
   res.send(forum.map(a => {
-    console.log(a.topics)
     var lastTopic = {}
     if(a.topics.length > 0) {
       lastTopic = {
@@ -135,28 +134,25 @@ app.get('/f', function(req, res) {
   }))
 });
 
-app.get('/f:forumId', function(req, res) {
-  console.log(req.params.forumId)
+app.get('/f/:forumId([0-9]+)', function(req, res) {
   res.send(forum[req.params.forumId])  
 })
 
 
-app.post('/f:forumId', function(req, res) {
+app.post('/f/:forumId([0-9]+)', function(req, res) {
   console.log("create topic")
   console.log(req.user)
   console.log(`User authenticated? ${req.isAuthenticated()}`)
   if(req.isAuthenticated()) {
-    console.log(req.params)
     var currentForum = forum[req.params.forumId];
-    console.log(currentForum)
     currentForum.topics.push({title: req.body.title, author: req.user.username, timestamp: new Date(), id: currentForum.topics.length, views: 0, posts:[{id: 0, post: req.body.post, author: req.user.username, timestamp: new Date()}]})
-    res.status(200).json({path: `/f${currentForum.id}/t${currentForum.topics.length-1}` })
+    res.status(200).json({path: `/f/${currentForum.id}/t/${currentForum.topics.length-1}` })
   } else {
     res.sendStatus(401)
   }
 })
 
-app.get('/f:forumId/t:topicId', function(req, res) {
+app.get('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
   var found = forum[req.params.forumId].topics.find(a => (a.id == req.params.topicId))
 
   if(found) {
@@ -167,7 +163,7 @@ app.get('/f:forumId/t:topicId', function(req, res) {
   }
 })
 
-app.post('/f:forumId/t:topicId', function(req, res) {
+app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
   if(req.isAuthenticated()) {
     let currentTopic = forum[req.params.forumId].topics[req.params.topicId];
     currentTopic.posts.push({post: req.body.post, author: req.user.username, timestamp: new Date(), id: currentTopic.posts.length})

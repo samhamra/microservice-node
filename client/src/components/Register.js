@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link, Redirect } from 'react-router-dom';
+import {Redirect } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -52,7 +52,6 @@ export default class Register extends Component {
   
   register(e) {
     e.preventDefault();
-    console.log("register")
     let data = {username: e.target.elements[0].value, password: e.target.elements[1].value}
     fetch("http://localhost:3000/register", {
         method: "POST",
@@ -65,7 +64,6 @@ export default class Register extends Component {
     })
     .then(response => {
       if(response.status === 200) {
-        console.log("account created")
         this.setState({
           error: "",
           redirect: true

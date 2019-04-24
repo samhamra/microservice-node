@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import {Redirect } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import styled from 'styled-components';
 
@@ -50,7 +50,6 @@ export default class Login extends Component {
   
   login(e) {
     e.preventDefault();
-    console.log("login")
     let data = {username: e.target.elements[0].value, password: e.target.elements[1].value}
     fetch("http://localhost:3000/login", {
         method: "POST",

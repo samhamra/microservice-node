@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import spaceman from '../spaceman.png'
 
 const Sticky = styled.div`
   position: -webkit-sticky;
@@ -24,11 +25,34 @@ const Nav = styled.nav`
   font-size: 3vh;
 `
 
+const Brand = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const AccountName =  styled.p`
   font-weight: bold;
   display: inline;
   margin: 0;
   padding-right: 1em;
+`
+
+const Img = styled.img`
+  height: 2em;
+  padding-right: 0.5em;
+`
+
+const Title = styled.div`
+  font-family: Rez;
+  font-size: 5vh;
+
+`
+
+const WhiteLink = styled(Link)`
+  color: white;
+  :hover {
+    color: white;
+  }
 `
 
 
@@ -50,15 +74,18 @@ export default class Navbar extends Component {
   }
   
   render() {
-    const isLoggedIn = this.state.isLoggedIn;
     return (
       <Sticky>
-        
-        <Nav>
-          <Link to="/">
-            Forum
-          </Link>
-        </Nav>
+        <Brand>
+          <div>
+            <Img src={spaceman} />
+          </div>
+          <WhiteLink to="/">
+            <Title>
+              Space Forum
+            </Title>
+          </WhiteLink>
+        </Brand>
         {this.state.loggedIn ? (
           <Nav>
             <FontAwesomeIcon icon={faUser} />
@@ -67,9 +94,9 @@ export default class Navbar extends Component {
           </Nav>
         ) : (
           <Nav>
-            <Link to="/register">Sign up </Link>
+            <WhiteLink to="/register">Sign up </WhiteLink>
               |
-            <Link to="/login"> Login</Link>
+            <WhiteLink to="/login"> Login</WhiteLink>
           </Nav>
         )}
       </Sticky>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
-import { Link, Redirect } from 'react-router-dom';
+import {Redirect } from 'react-router-dom';
 
 export default class CreateTopic extends Component {
   
@@ -14,7 +14,7 @@ export default class CreateTopic extends Component {
   sendData(e) {
     e.preventDefault()
     var data = {title: e.target.elements[0].value, post: e.target.elements[1].value}
-    fetch(`http://localhost:3000/f${this.props.match.params.forumId}`, 
+    fetch(`http://localhost:3000/f/${this.props.match.params.forumId}`, 
       {
         method: "POST",
         mode: "cors",

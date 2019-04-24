@@ -3,19 +3,25 @@ import { Link } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import styled from 'styled-components';
 
-
+const BlackLink = styled(Link)`
+  color: black;
+  :hover {
+    color: black;
+  }
+`
 const Tr= styled.tr`
   background: ${props => props.isEven ? "white" : "#DBD7D6"};
 `
 const Table = styled.table`
-  width: 75%;
+  width: 100%
 `
 const Container = styled.div`
-  padding: 2em;
   background: white;
+  width: 80%
 `
 const Td = styled.td`
   border-bottom: 1px solid gray;
+  height: 3em;
 `
 const TBody = styled.tbody`
   border-top: 1px solid gray;
@@ -32,13 +38,14 @@ export default class SubForum extends Component {
     modelInstance.addObserver(this)
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/f${this.props.match.params.id}`, {
+    fetch(`http://localhost:3000/f/${this.props.match.params.forumId}`, {
       mode: "cors",
       credentials: 'include'
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response);
+      modelInstance.setForum(response.id, response.name)
+      modelInstance.setTopic(null, null)
       this.setState({
         data: response
       })
@@ -46,12 +53,14 @@ export default class SubForum extends Component {
     .catch(error => {
       console.log(error)
     })
+    
+    
   }
   componentWillUnmount() {
     modelInstance.removeObserver(this)
   }
   
-  update() {
+  update(code) {
     this.setState({
       isLoggedIn: modelInstance.isLoggedIn()
     })
@@ -62,7 +71,7 @@ export default class SubForum extends Component {
       return (
         <Tr isEven={i%2 === 0} key={i}>
           <Td>
-            <Link key={topic.id} to={`/f${this.props.match.params.id}/t${topic.id}`}>{topic.title}</Link>
+            <BlackLink key={topic.id} to={`/f/${this.props.match.params.forumId}/t/${topic.id}`}>{topic.title}</BlackLink>
           </Td>
           <Td>{topic.posts.length}</Td>
           <Td>{topic.views}</Td>
@@ -74,7 +83,6 @@ export default class SubForum extends Component {
     
     return (
       <Container> 
-        <h1>{this.state.data.name}</h1>
         <Table>
           <thead>
             <tr>
@@ -92,7 +100,7 @@ export default class SubForum extends Component {
         
         {
           this.state.isLoggedIn &&  
-            <Link to={"/f" + this.props.match.params.id + "/createTopic"}>Create new topic </Link>
+            <Link to={"/f/" + this.props.match.params.forumId + "/createTopic"}>Create new topic </Link>
         }
         <Link to="/">Go back to main</Link>
       </Container>

@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
-import { Link, Redirect } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import styled from 'styled-components';
+
+const Container = styled.div`
+background: white;
+width: 80%
+`
 
 export default class Topic extends Component {
-  
+
   constructor(props) {
     super()
     console.log(props.match.params)
     this.state = {
-      path: `/f${props.match.params.forumId}/t${props.match.params.topicId}`
+      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
     }
   }
   componentDidMount() {
@@ -24,6 +30,7 @@ export default class Topic extends Component {
       }
     })
     .then(response => {
+      modelInstance.setTopic(response.id, response.title)
       this.setState({data: response})
     })
     .catch(error => {
@@ -36,7 +43,7 @@ export default class Topic extends Component {
     }
     
     return (
-      <div> 
+      <Container> 
       {this.state.data && (
         <div>
           <div style={{border: '1px solid black'}} >
@@ -59,7 +66,7 @@ export default class Topic extends Component {
           </div>
         </div>
       )}  
-      </div>
+      </Container>
     )
   }
 }

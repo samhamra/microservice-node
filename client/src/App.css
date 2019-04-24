@@ -6,13 +6,6 @@ h1, h2, nav, a {
     user-select: none;
 }
 
-* {
-  font-family: Courier;
-}
-
-nav > a, nav > a:hover {
-  color: white;
-}
 
 #sky {
   background: -webkit-linear-gradient(#00111e 30%, #033d5e);

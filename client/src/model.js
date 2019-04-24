@@ -3,14 +3,35 @@ class Model {
   constructor() {
     this.loggedIn = false;
     this.userName = null;
+    this.forumName = null
+    this.forumId = null;
+    this.topicName = null;
+    this.topicId = 0;
     this.observers = []
   }
-  
-
   setLogin(logged, username) {
     this.loggedIn = logged;
     this.userName = username
     this.notifyObservers(0);
+  }
+  
+  setTopic(id, name) {
+    this.topicId = id;
+    this.topicName = name;
+    this.notifyObservers(2)
+  }
+  setForum(id, name) {
+    this.forumId = id;
+    this.forumName = name;
+    this.notifyObservers(1)
+  }
+  
+  getForum() {
+    return {forumId: this.forumId, forumName: this.forumName}
+  }
+  
+  getTopic() {
+    return {topicId: this.topicId, topicName: this.topicName}
   }
   
   isLoggedIn() {

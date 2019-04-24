@@ -9,13 +9,21 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import CreateTopic from './components/CreateTopic'
 import CreatePost from './components/CreatePost'
+import NavigationPath from './components/NavigationPath'
 import Topic from './components/Topic'
-import { Route, BrowserRouter } from 'react-router-dom';
+import Forum from './components/Forum'
+import {Redirect, Route, BrowserRouter, Router } from 'react-router-dom';
 import styled from 'styled-components';
+const Container = styled.div`
+height: 100%;
+width: 100%
+`
 
 const Background = styled.canvas`
 position: fixed;
-z-index: -1
+z-index: -1;
+height: 100%;
+width: 100%
 `
 
 class App extends Component {
@@ -45,21 +53,24 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
+      <Container>
         <Background id="sky"/>
         <BrowserRouter>
-          <Route path="/" component={Navbar}/>
-          <Route path="/" component={Header}/>
-          <Route exact path="/" component={Main} />
+          <Route path="/" render={props=> (
+            <>
+              <Navbar/>
+              <Header/>
+            </>
+          )}/>
+          <Route exact path="/" render={props => (<Redirect to="/f"/>)}/>
+          <Route path="/f" component={Forum}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout}/>
-          <Route exact path="/f:id" component={SubForum}/>
-          <Route exact path="/f:forumId/createTopic" component={CreateTopic}/>
-          <Route exact path="/f:forumId/t:topicId" component={Topic}/>
-          <Route exact path="/f:forumId/t:topicId/createPost" component={CreatePost}/>
+          
         </BrowserRouter>
-      </div>
+        
+      </Container>
     );
   }
 }

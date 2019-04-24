@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
-import { Link, Redirect } from 'react-router-dom';
+import {Redirect } from 'react-router-dom';
 
 export default class CreatePost extends Component {
   
   constructor(props) {
     super()
-    console.log(props.match.params)
     this.state = {
-      path: `/f${props.match.params.forumId}/t${props.match.params.topicId}`
+      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
     }
     this.sendData = this.sendData.bind(this)
   }

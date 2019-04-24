@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import spaceman from '../spaceman.png'
+import {modelInstance} from "../model.js"
 
 const RightTd = styled.td`
   border: 0.5px solid #DBD7D6;
@@ -15,7 +16,6 @@ const LeftTd = styled.td`
 `
 
 const Container = styled.div`
-  padding: 2em;
   display: flex;
   flex-direction: row;
 `
@@ -38,8 +38,14 @@ const Outer = styled.div`
 const Img = styled.img`
   height: 15vw;
   position: sticky;
-  top: 1em;
-  padding-top: 1em;
+  top: 2em;
+`
+const BlackLink = styled(Link)`
+  color: black;
+  font-weight: bold;
+  :hover {
+    color: black;
+  }
 `
 
 
@@ -57,7 +63,8 @@ export default class Main extends Component {
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response);
+      modelInstance.setForum(null, null)
+      modelInstance.setTopic(null, null)
       this.setState({
         subForums: response
       })
@@ -77,7 +84,7 @@ export default class Main extends Component {
       <tr key={subForum.id}>
         <LeftTd>
           <Outer>
-            <Link to={"/f" + subForum.id}>{subForum.name}</Link>
+            <BlackLink to={"/f/" + subForum.id}>{subForum.name}</BlackLink>
             <div>
               Posts: {subForum.posts} Topics: {subForum.topics} 
             </div>
@@ -87,9 +94,9 @@ export default class Main extends Component {
           <Outer>
             {subForum.latest.name &&
               <>
-              <Link to={"/f" + subForum.id + "/t" + subForum.latest.id}>{subForum.latest.name}</Link>
+              <BlackLink to={"/f/" + subForum.id + "/t/" + subForum.latest.id}>{subForum.latest.name}</BlackLink>
               <div>
-                By: {subForum.latest.user} at {subForum.latest.timestamp}
+                By: {subForum.latest.user} at {subForum.latest.timestamp.substring(0,10)}
               </div>
               </>
             }    
