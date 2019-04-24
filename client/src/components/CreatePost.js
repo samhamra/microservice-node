@@ -86,7 +86,7 @@ export default class CreatePost extends Component {
       return (
         <Container>
           <Form onSubmit={this.sendData}>
-            <Textarea placeholder="Message" name="Post"/>
+            <Textarea required placeholder="Message" name="Post"/>
             <Button type="submit">Create post</Button>
           </Form>
         </Container>

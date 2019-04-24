@@ -98,8 +98,8 @@ export default class CreateTopic extends Component {
     return (
       <Container>
         <Form onSubmit={this.sendData}>
-          <Input placeholder="Title" name="Title"/>
-          <Textarea placeholder="Message" name="Post"/>
+          <Input required placeholder="Title" name="Title"/>
+          <Textarea required placeholder="Message" name="Post"/>
           <Button type="submit">Create topic </Button>
         </Form>
       </Container>
