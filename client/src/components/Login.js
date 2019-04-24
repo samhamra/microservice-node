@@ -61,7 +61,7 @@ export default class Login extends Component {
   login(e) {
     e.preventDefault();
     let data = {username: e.target.elements[0].value, password: e.target.elements[1].value}
-    fetch("http://localhost:3000/login", {
+    fetch("http://207.154.242.193:3000/login", {
         method: "POST",
         mode: "cors",
         credentials: "include",
