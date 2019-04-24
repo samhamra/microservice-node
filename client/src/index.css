@@ -12,3 +12,35 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Lobster New",
     monospace;
 }
+
+
+h1, h2, p, a {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+button {
+  -webkit-appearance: none;
+}
+
+
+
+#sky {
+  background: -webkit-linear-gradient(#00111e 30%, #033d5e);
+  background: -moz-linear-gradient(#00111e 30%, #033d5e);
+  background: -o-linear-gradient(#00111e 30%, #033d5e);
+  background: linear-gradient(#00111e 30%, #033d5e);
+  overflow: hidden;
+}
+
+@font-face {
+  font-family: NavText;
+  src: url(Halfomania-Regular.otf);
+}
+@font-face {
+  font-family: Rez;
+  src: url(REZ.ttf);
+}

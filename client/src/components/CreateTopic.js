@@ -54,7 +54,6 @@ export default class CreateTopic extends Component {
   }
   componentWillUnmount() {
     modelInstance.setCreateTopic(false);
-    console.log("createtopic to false")
   }
   sendData(e) {
     e.preventDefault()

@@ -23,7 +23,7 @@ const Sticky = styled.div`
 
 const Nav = styled.nav`
   font-family: Lobster;
-  font-size: 3vw;
+  font-size: 1.5em;
 `
 
 const Brand = styled.div`
@@ -54,6 +54,8 @@ const WhiteLink = styled(Link)`
   color: white;
   :hover {
     color: white;
+    text-decoration: none;
+    text-shadow: 1px 1px white;
   }
 `
 

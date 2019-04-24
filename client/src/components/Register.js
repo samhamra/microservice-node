@@ -32,7 +32,6 @@ const Button = styled.button`
 `
 
 
-
 const Form = styled.form`
   height: 100px;
   display: flex;
@@ -44,7 +43,9 @@ const Form = styled.form`
 const Error= styled.p`
   color: red;
   font-weight: bold;
-  padding-top: 2em
+  padding-top: 2em;
+  font-family: Forum;
+  text-align: center;
 `
 
 

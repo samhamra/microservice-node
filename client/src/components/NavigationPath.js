@@ -63,7 +63,6 @@ export default class NavigationPath extends Component {
   }
     
   render() {
-    console.log(this.state)
     return (
       <Container>
         <Title>

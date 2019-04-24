@@ -16,7 +16,6 @@ const H2 = styled.h2`
   font-family: Lobster
 `
 
-
 const Input = styled.input`
   padding-left: 0.2em;
   margin-bottom: ${props => props.second ? "1.5em" : "0.5em"};
@@ -43,7 +42,9 @@ const Form = styled.form`
 const Error= styled.p`
   color: red;
   font-weight: bold;
-  padding-top: 2em
+  padding-top: 2em;
+  font-family: Forum;
+  text-align: center;
 `
 
 

@@ -16,13 +16,10 @@ fs.readFile('users.json', (err, data) => {
 passport.use(new LocalStrategy(
   { usernameField: 'username' },
   (username, password, done) => {
-    console.log(username, password)
     let idx = users.findIndex(user => username === user.username && password === user.password);
     if(idx !== -1) {
-      console.log('Local strategy returned true')
       return done(null, users[idx])
     } else {
-      console.log('Local strategy returned false')
       return done(null, false)
     }
   }
@@ -34,8 +31,6 @@ passport.serializeUser((user, done) => {
 
 
 passport.deserializeUser((id, done) => {
-  console.log('Inside deserializeUser callback')
-  console.log(`The user id passport saved in the session file store is: ${id}`)
   let user;
   if(id<users.length) {
     user = users[id]
@@ -67,8 +62,6 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 var forum = []
 
 fs.readFile('forum.json', (err, data) => {
@@ -76,13 +69,11 @@ fs.readFile('forum.json', (err, data) => {
   forum = JSON.parse(data);
 });
 
+const forumNames = ["Sports", "Science", "Education", "Hunting", "Politics", "Culture", "Crime", "Technology", "Nature", "Travelling", "Clothing", "Hunting", "Vehicles", "Computers", "Extra", "Testing", "Testing again", "Testing", "Testing", "Testing", "Testing", "Testing","Testing","Testing","Testing"]
 
-
-// const forumNames = ["Sports", "Science", "Education", "Hunting", "Politics", "Culture", "Crime", "Technology", "Nature", "Travelling", "Clothing", "Hunting", "Vehicles", "Computers", "Extra", "Testing", "Testing again", "Testing", "Testing", "Testing", "Testing", "Testing","Testing","Testing","Testing"]
-// 
-// forumNames.forEach(name => {
-//   forum.push({id: forum.length, name: name, topics: []})
-// }) 
+forumNames.forEach(name => {
+  forum.push({id: forum.length, name: name, topics: []})
+}) 
 
 
 app.post('/register', function(req, res) {
@@ -100,7 +91,6 @@ app.post('/login', (req, res, next) => {
     if (!user) { console.log("no user found"); return res.sendStatus(401) }
     req.login(user, (err) => {
       if (err) { console.log(err); return next(err); }
-      console.log(user)
       console.log("authed")
       req.session.key = "sam"
       return res.status(200).send({username: user.username})
@@ -119,7 +109,6 @@ app.post('/logout',(req,res) => {
 })
 
 app.get('/f', function(req, res) {
-  console.log(req.sessionID)
   res.send(forum.map(a => {
     var lastTopic = {}
     if(a.topics.length > 0) {
@@ -140,9 +129,6 @@ app.get('/f/:forumId([0-9]+)', function(req, res) {
 
 
 app.post('/f/:forumId([0-9]+)', function(req, res) {
-  console.log("create topic")
-  console.log(req.user)
-  console.log(`User authenticated? ${req.isAuthenticated()}`)
   if(req.isAuthenticated()) {
     var currentForum = forum[req.params.forumId];
     currentForum.topics.push({title: req.body.title, author: req.user.username, timestamp: new Date(), id: currentForum.topics.length, views: 0, posts:[{id: 0, post: req.body.post, author: req.user.username, timestamp: new Date()}]})
