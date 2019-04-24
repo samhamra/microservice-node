@@ -2,10 +2,37 @@ import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
 import { Link} from 'react-router-dom';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Container = styled.div`
-background: white;
-width: 80%
+  background: white;
+  width: 80%
+`
+const User = styled.div`
+  width: 30%
+`
+const Avatar = styled.div`
+  height: 60%
+  background: green
+`
+
+const Data = styled.div`
+  height: 40%
+`
+
+const Message = styled.div`
+  padding: 0.5em;
+`
+const Username = styled.p`
+  margin: 0;
+  padding: 0;
+`
+
+const Post = styled.div`
+  display: flex;
+  border: 1px solid black;
+  min-height: 15vw
 `
 
 export default class Topic extends Component {
@@ -41,21 +68,26 @@ export default class Topic extends Component {
     if(this.state.error) {
       return (<p>Something happened, try again later</p>)
     }
-    
+    if(!this.state.data) {
+      return null
+    }
     return (
       <Container> 
-      {this.state.data && (
-        <div>
-          <div style={{border: '1px solid black'}} >
-            <h1>{this.state.data.title}</h1>
-          </div>
           <div>
             {this.state.data.posts.map(post => (
-              <div style={{border: '1px solid black'}} key={post.id}>
-                <p>{post.post}</p>
-                <p>{post.author}</p>
-                <p>{post.timestamp}</p>
-              </div>
+              <Post key={post.id}>
+                <User>
+                  <Avatar>
+                  </Avatar>
+                  <Data>
+                    <Username>{post.author}</Username>
+                    <Username>{post.timestamp}</Username>
+                  </Data>
+                </User>
+                <Message>
+                  <p>{post.post}</p>
+                </Message>
+              </Post>
             ))}
           </div>
           <div>
@@ -64,8 +96,6 @@ export default class Topic extends Component {
             }
             
           </div>
-        </div>
-      )}  
       </Container>
     )
   }
