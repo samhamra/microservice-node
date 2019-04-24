@@ -73,7 +73,7 @@ export default class Topic extends Component {
     
   }
   componentDidMount() {
-    fetch("http://207.154.242.193:3000" + this.state.path, {
+    fetch("http://samhamra.com" + this.state.path, {
       mode: "cors",
       credentials: 'include'
     })
