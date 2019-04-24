@@ -62,7 +62,7 @@ export default class Register extends Component {
   register(e) {
     e.preventDefault();
     let data = {username: e.target.elements[0].value, password: e.target.elements[1].value}
-    fetch("http://samhamra.com/register", {
+    fetch("http://samhamra.com:3000/register", {
         method: "POST",
         mode: "cors",
         credentials: 'include',

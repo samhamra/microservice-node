@@ -56,7 +56,7 @@ app.use(session({
     maxAge: TWO_HOURS
   }
 }))
-app.use(cors({credentials: true, origin: 'http://207.154.242.193'}));
+app.use(cors({credentials: true, origin: 'http://samhamra.com'}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(passport.initialize());

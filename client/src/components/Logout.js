@@ -4,7 +4,7 @@ import {modelInstance} from "../model.js"
 
 export default class Logout extends Component {
   componentDidMount() {
-    fetch("http://samhamra.com/logout", {
+    fetch("http://samhamra.com:3000/logout", {
       method: "POST",
       mode: "cors",
       credentials: 'include'

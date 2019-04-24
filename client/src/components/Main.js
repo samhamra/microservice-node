@@ -72,7 +72,7 @@ export default class Main extends Component {
     }
   }
   componentDidMount() {
-    fetch('http://samhamra.com/f', {
+    fetch('http://samhamra.com:3000/f', {
       mode: "cors",
       credentials: 'include'
     })

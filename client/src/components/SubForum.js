@@ -63,7 +63,7 @@ export default class SubForum extends Component {
     modelInstance.addObserver(this)
   }
   componentDidMount() {
-    fetch(`http://samhamra.com/f/${this.props.match.params.forumId}`, {
+    fetch(`http://samhamra.com:3000/f/${this.props.match.params.forumId}`, {
       mode: "cors",
       credentials: 'include'
     })

@@ -46,7 +46,7 @@ export default class CreatePost extends Component {
   sendData(e) {
     e.preventDefault()
     var data = {post: e.target.elements[0].value}
-    fetch(`http://samhamra.com${this.state.path}`, {
+    fetch(`http://samhamra.com:3000${this.state.path}`, {
       method: "POST",
       mode: "cors",
       credentials: 'include',
