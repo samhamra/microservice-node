@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
 import {Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-
+import {hostname} from '../config.js'
 const Container = styled.div`
   background-color: rgba(255,255,255, 1);
   width: 80%;
@@ -33,6 +33,7 @@ const Textarea = styled.textarea`
   resize: none;
   height: 30vh;
   font-family: Forum;
+  font-size: 1.2rem;
 `
 export default class CreatePost extends Component {
   
@@ -46,7 +47,7 @@ export default class CreatePost extends Component {
   sendData(e) {
     e.preventDefault()
     var data = {post: e.target.elements[0].value}
-    fetch(`http://samhamra.com:3000${this.state.path}`, {
+    fetch(`http://${hostname}${this.state.path}`, {
       method: "POST",
       mode: "cors",
       credentials: 'include',

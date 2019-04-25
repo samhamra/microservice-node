@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import {Redirect } from 'react-router-dom';
-
+import {hostname} from '../config.js'
 
 const Container = styled.div`
   margin: 2em 2em 2em 2em;
@@ -62,7 +62,7 @@ export default class Register extends Component {
   register(e) {
     e.preventDefault();
     let data = {username: e.target.elements[0].value, password: e.target.elements[1].value}
-    fetch("http://samhamra.com:3000/register", {
+    fetch(`http://${hostname}/register`, {
         method: "POST",
         mode: "cors",
         credentials: 'include',

@@ -101,7 +101,7 @@ export default class Navbar extends Component {
         ) : (
           <Nav>
             <WhiteLink to="/register">Sign up </WhiteLink>
-              |
+            <span>|</span> 
             <WhiteLink to="/login"> Login</WhiteLink>
           </Nav>
         )}

@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path');
 const bodyParser = require("body-parser"); 
 const cors = require('cors')
 const session = require('express-session');
@@ -7,8 +8,13 @@ const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fs = require('fs');
+const app = express()
+const port = 80
+const TWO_HOURS = 1000 * 60 * 60 *2;
+const client = "http://localhost"
+
 var users = [];
-fs.readFile('users.json', (err, data) => {
+fs.readFile('/data/users.json', (err, data) => {
   if (err) throw err;
   users = JSON.parse(data);
 });
@@ -40,9 +46,7 @@ passport.deserializeUser((id, done) => {
   done(null, users[id]);
 });
 
-const app = express()
-const port = 3000
-const TWO_HOURS = 1000 * 60 * 60 *2;
+
 //https://medium.com/@evangow/server-authentication-basics-express-sessions-passport-and-curl-359b7456003d
 app.use(session({
   genid: (req) => {
@@ -56,7 +60,7 @@ app.use(session({
     maxAge: TWO_HOURS
   }
 }))
-app.use(cors({credentials: true, origin: 'http://samhamra.com'}));
+app.use(cors({credentials: true, origin: client}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(passport.initialize());
@@ -65,7 +69,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 var forum = []
 
-fs.readFile('forum.json', (err, data) => {
+fs.readFile('/data/forum.json', (err, data) => {
   if (err) throw err;
   forum = JSON.parse(data);
 });
@@ -171,8 +175,8 @@ process.stdin.resume();//so the program will not close instantly
 
 function exitHandler() {
   console.log("shutting down")
-  fs.writeFileSync('users.json', JSON.stringify(users));  
-  fs.writeFileSync('forum.json', JSON.stringify(forum))
+  fs.writeFileSync('/data/users.json', JSON.stringify(users));  
+  fs.writeFileSync('/data/forum.json', JSON.stringify(forum))
   process.exit();
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import styled from 'styled-components';
+import {hostname} from '../config.js'
 
 const BlackLink = styled(Link)`
   color: black;
@@ -19,9 +20,9 @@ const HeaderRow = styled.tr`
 `
 const Table = styled.table`
   width: 100%;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
   font-family: Forum;
+  color: black;
+  font-size: 1.2rem;
 `
 const Th = styled.th`
   padding-left: ${props => props.first ? "0.8em" : "0em"};
@@ -34,19 +35,16 @@ const Container = styled.div`
   }
 `
 const Button = styled.button`
-  margin-bottom: 1em;
-  margin-left: 1em;
+  margin-top: 1em;
 `
 
 const Td = styled.td`
   border-bottom: 1px solid gray;
-  height: 3em;
+  height: 2vh;
   padding-left: ${props => props.first ? "0.8em" : "0em"};
-  
 `
 const TBody = styled.tbody`
   border-top: 1px solid gray;
-  margin-left: 1em;
 `
 const THead = styled.thead`
   border-top: 1px solid black;
@@ -63,7 +61,7 @@ export default class SubForum extends Component {
     modelInstance.addObserver(this)
   }
   componentDidMount() {
-    fetch(`http://samhamra.com:3000/f/${this.props.match.params.forumId}`, {
+    fetch(`http://${hostname}/f/${this.props.match.params.forumId}`, {
       mode: "cors",
       credentials: 'include'
     })

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
 import {Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import {hostname} from '../config.js'
 
 const Container = styled.div`
   width: 80%;
@@ -27,6 +28,7 @@ const Form = styled.form`
   justify-content: space-around;
   width: 100%;
   font-family: Forum;
+  font-size: 1.2rem;
 `
 const Input = styled.input`
   padding-left: 1em;
@@ -58,7 +60,7 @@ export default class CreateTopic extends Component {
   sendData(e) {
     e.preventDefault()
     var data = {title: e.target.elements[0].value, post: e.target.elements[1].value}
-    fetch(`http://samhamra.com:3000/f/${this.props.match.params.forumId}`, 
+    fetch(`http://${hostname}/f/${this.props.match.params.forumId}`, 
       {
         method: "POST",
         mode: "cors",

@@ -15,13 +15,14 @@ const Container = styled.div`
   align-items: center;
   margin-bottom: 0.5em;
   padding-left: 0.8em;
-  height: 1.8em;
+  height: 1.8rem;
   opacity: 0.8;
   font-family: Lobster;
+  
 `
 const Title = styled.h1`
   padding-top: 0.4em;
-  font-size: 1.2em;
+  font-size: 1.4rem;
 `
 const BlackLink = styled(Link)`
   color: black;

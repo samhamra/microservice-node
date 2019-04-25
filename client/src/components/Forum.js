@@ -6,15 +6,10 @@ import Main from './Main'
 import SubForum from './SubForum'
 import CreatePost from './CreatePost'
 import CreateTopic from './CreateTopic'
-import {Route, Switch} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 
 const Container = styled.div`
 `
-const Title = styled.h1`
-
-`
-
-
 export default class Forum extends Component {
     
   render() {

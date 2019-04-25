@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
 import { Link} from 'react-router-dom';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import avatar from '../avatar.png'
+import {hostname} from '../config.js'
 
 const Container = styled.div`
   width: 80%;
@@ -14,15 +14,16 @@ const Container = styled.div`
 `
 const User = styled.div`
   min-width: 20%;
+  max-width: 20%;
   border-right: 1px solid black;
   text-align: center;  
 `
 const Button = styled.button`
-  margin-left: 1em;
 `
 
 const Avatar = styled.div`
-  height: 60%
+  max-height: 60%;
+  height: 60%;
   border-bottom: 1px solid black;
   font-size: 6vw;
   padding: 0;
@@ -34,13 +35,16 @@ const Avatar = styled.div`
     display: none;
   }
 `
+const Img = styled.img`
+  width: 50%;
+`
 
 const Data = styled.div`
   height: 40%
 `
 
 const Message = styled.div`
-  padding: 1em;
+  padding: 0.6em;
 `
 const Username = styled.p`
   font-weight: bold;
@@ -60,6 +64,7 @@ const Post = styled.div`
   background: white;
   opacity: 0.8
   font-family: Forum
+  font-size: 1.2rem;
 `
 
 export default class Topic extends Component {
@@ -73,7 +78,7 @@ export default class Topic extends Component {
     
   }
   componentDidMount() {
-    fetch("http://samhamra.com:3000" + this.state.path, {
+    fetch(`http://${hostname + this.state.path}`, {
       mode: "cors",
       credentials: 'include'
     })
@@ -106,7 +111,7 @@ export default class Topic extends Component {
               <Post key={post.id}>
                 <User>
                   <Avatar>
-                    <img src={avatar}/>
+                    <Img src={avatar} alt="avatar"/>
                   </Avatar>
                   <Data>
                     <Username>{post.author}</Username>

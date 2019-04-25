@@ -1,26 +1,19 @@
 import React, { Component } from 'react';
-import './App.css';
-import Main from './components/Main';
 import Header from './components/Header'
 import Navbar from './components/Navbar'
-import SubForum from './components/SubForum'
 import Register from './components/Register'
 import Login from './components/Login'
 import Logout from './components/Logout'
-import CreateTopic from './components/CreateTopic'
-import CreatePost from './components/CreatePost'
-import NavigationPath from './components/NavigationPath'
-import Topic from './components/Topic'
 import Forum from './components/Forum'
-import {Redirect, Route, BrowserRouter, Router } from 'react-router-dom';
+import {Redirect, Route, BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
 `
 
 const Background = styled.canvas`
-position: fixed;
-z-index: -1;
+  position: fixed;
+  z-index: -1;
 `
 
 class App extends Component {

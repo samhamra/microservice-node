@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import spaceman from '../spaceman.png'
 import {modelInstance} from "../model.js"
+import {hostname} from "../config.js"
 
 const RightTd = styled.td`
   border: 0.5px solid #DBD7D6;
@@ -15,7 +16,7 @@ const LeftTd = styled.td`
   background: #eff0f1;
 `
 
-const Info = styled.div`
+const Info = styled.span`
   font-family: 'Forum', cursive;
 
 `
@@ -32,6 +33,7 @@ const Container = styled.div`
 const Table = styled.table`
   opacity: 0.8
   width: 100%;
+  font-size: 1.2rem;
 `
 
 const Wrapper = styled.div`
@@ -72,7 +74,7 @@ export default class Main extends Component {
     }
   }
   componentDidMount() {
-    fetch('http://samhamra.com:3000/f', {
+    fetch(`http://${hostname}/f`, {
       mode: "cors",
       credentials: 'include'
     })
@@ -101,7 +103,7 @@ export default class Main extends Component {
           <Outer>
             <BlackLink to={"/f/" + subForum.id}>{subForum.name}</BlackLink>
             <Info>
-              Posts: {subForum.posts} Topics: {subForum.topics} 
+                Posts: {subForum.posts} Topics: {subForum.topics} 
             </Info>
           </Outer>
         </LeftTd>
