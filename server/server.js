@@ -60,6 +60,11 @@ app.use(session({
     maxAge: TWO_HOURS
   }
 }))
+app.use(cors({credentials: true, origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    }
+  }}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(passport.initialize());
@@ -72,11 +77,16 @@ fs.readFile('data/forum.json', (err, data) => {
   forum = JSON.parse(data);
 });
 
-app.options('*', cors({credentials: true, origin: function (origin, callback) {
+var corsOptions = {
+  origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
     }
-  }}))
+  }
+}
+
 
 app.post('/register', function(req, res) {
   if(users.some(user=> user.username === req.body.username)) {

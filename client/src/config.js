@@ -1,1 +1,1 @@
-export const hostname = "http://samhamra.com"
+export const hostname = "http://samhamra.com:3000"
