@@ -73,12 +73,12 @@ export default class Topic extends Component {
     super()
     
     this.state = {
-      path: `${hostname}/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
+      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
     }
     
   }
   componentDidMount() {
-    fetch(`${this.state.path}`, {
+    fetch(hostname + this.state.path, {
       mode: "cors",
       credentials: 'include'
     })

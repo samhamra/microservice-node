@@ -125,6 +125,7 @@ export default class SubForum extends Component {
           this.state.isLoggedIn &&  
             <Link to={"/f/" + this.props.match.params.forumId + "/createTopic"}><Button>Create new topic</Button> </Link>
         } 
+
       </Container>
     )
   }

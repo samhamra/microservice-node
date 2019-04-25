@@ -40,6 +40,7 @@ export default class CreatePost extends Component {
   
   constructor(props) {
     super()
+    console.log("createpost")
     this.state = {
       path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
     }
@@ -77,7 +78,9 @@ export default class CreatePost extends Component {
   }
   
   render() {
+    console.log("createPost")
       if(this.state.redirect) {
+        
         return <Redirect to={this.state.path}/>
       }
       
@@ -87,6 +90,7 @@ export default class CreatePost extends Component {
       }
       return (
         <Container>
+        {console.log("createPost")}
           <Form onSubmit={this.sendData}>
             <Textarea required placeholder="Message" name="Post"/>
             <Button type="submit">Create post</Button>
