@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import styled from 'styled-components';
+import {hostname} from '../config.js'
 
 const BlackLink = styled(Link)`
   color: black;
@@ -60,7 +61,7 @@ export default class SubForum extends Component {
     modelInstance.addObserver(this)
   }
   componentDidMount() {
-    fetch(`/f/${this.props.match.params.forumId}`, {
+    fetch(`${hostname}/f/${this.props.match.params.forumId}`, {
       mode: "cors",
       credentials: 'include'
     })

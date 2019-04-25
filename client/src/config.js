@@ -1,0 +1,1 @@
+export const hostname = "www.samhamra.com:3000"

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {modelInstance} from "../model.js"
+import {hostname} from '../config.js'
 
 const RightTd = styled.td`
   border: 0.5px solid #DBD7D6;
@@ -56,7 +57,7 @@ export default class Main extends Component {
     }
   }
   componentDidMount() {
-    fetch(`/f`, {
+    fetch(`${hostname}/f`, {
       mode: "cors",
       credentials: 'include'
     })

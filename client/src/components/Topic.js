@@ -3,6 +3,7 @@ import {modelInstance} from "../model.js"
 import { Link} from 'react-router-dom';
 import styled from 'styled-components';
 import avatar from '../avatar.png'
+import {hostname} from '../config.js'
 
 const Container = styled.div`
   width: 80%;
@@ -72,7 +73,7 @@ export default class Topic extends Component {
     super()
     
     this.state = {
-      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
+      path: `${hostname}/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
     }
     
   }

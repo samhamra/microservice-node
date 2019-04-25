@@ -11,7 +11,7 @@ const fs = require('fs');
 const app = express()
 const port = 3000;
 const TWO_HOURS = 1000 * 60 * 60 *2;
-const client = "http://localhost"
+const client = "www.samhamra.com"
 
 var users = [];
 fs.readFile('data/users.json', (err, data) => {
@@ -65,7 +65,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, '/../client')));
 
 var forum = []
 
@@ -73,13 +72,6 @@ fs.readFile('data/forum.json', (err, data) => {
   if (err) throw err;
   forum = JSON.parse(data);
 });
-
-app.get('/', (req,res) =>{
-  console.log("whut?")
-    res.sendFile(path.join(__dirname+'/../client/public/index.html'));
-});
-
-
 
 app.post('/register', function(req, res) {
   if(users.some(user=> user.username === req.body.username)) {
