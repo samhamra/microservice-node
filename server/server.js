@@ -9,9 +9,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fs = require('fs');
 const app = express()
-const port = 3001;
+const port = 3000;
 const TWO_HOURS = 1000 * 60 * 60 *2;
-const client = "www.samhamra.com"
+const client = "http://samhamra.com"
+const whitelist= ["http://samhamra.com", "http://www.samhamra.com"];
 
 var users = [];
 fs.readFile('data/users.json', (err, data) => {
@@ -60,7 +61,13 @@ app.use(session({
     maxAge: TWO_HOURS
   }
 }))
-app.use(cors({credentials: true, origin: client}));
+app.use(cors({credentials: true, origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(passport.initialize());
