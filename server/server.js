@@ -11,8 +11,7 @@ const fs = require('fs');
 const app = express()
 const port = 3000;
 const TWO_HOURS = 1000 * 60 * 60 *2;
-const client = "http://samhamra.com"
-const whitelist= ["http://samhamra.com", "http://www.samhamra.com"];
+const whitelist= ["http://samhamra.com", "http://www.samhamra.com", "http://localhost", "http://localhost:3001", "http://localhost:81" ];
 
 var users = [];
 fs.readFile('data/users.json', (err, data) => {
@@ -64,8 +63,6 @@ app.use(session({
 app.use(cors({credentials: true, origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
     }
   }}));
 app.use(bodyParser.urlencoded({ extended: false }))
