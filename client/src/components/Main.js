@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import spaceman from '../spaceman.png'
 import {modelInstance} from "../model.js"
-import {hostname} from "../config.js"
 
 const RightTd = styled.td`
   border: 0.5px solid #DBD7D6;
@@ -35,26 +33,10 @@ const Table = styled.table`
   width: 100%;
   font-size: 1.2rem;
 `
-
-const Wrapper = styled.div`
-  width: 20%
-  @media (max-width: 700px) {
-    width: 10%;
-  }
-  display: flex;
-  justify-content: center;
-`
-
 const Outer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5em;
-`
-
-const Img = styled.img`
-  height: 15vw;
-  position: sticky;
-  top: 2em;
 `
 const BlackLink = styled(Link)`
   color: black;
@@ -74,7 +56,7 @@ export default class Main extends Component {
     }
   }
   componentDidMount() {
-    fetch(`http://${hostname}/f`, {
+    fetch(`/f`, {
       mode: "cors",
       credentials: 'include'
     })

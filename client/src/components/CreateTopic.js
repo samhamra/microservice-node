@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
 import {Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import {hostname} from '../config.js'
 
 const Container = styled.div`
   width: 80%;
@@ -60,7 +59,7 @@ export default class CreateTopic extends Component {
   sendData(e) {
     e.preventDefault()
     var data = {title: e.target.elements[0].value, post: e.target.elements[1].value}
-    fetch(`http://${hostname}/f/${this.props.match.params.forumId}`, 
+    fetch(`/f/${this.props.match.params.forumId}`, 
       {
         method: "POST",
         mode: "cors",

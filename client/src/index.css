@@ -37,10 +37,6 @@ button {
 }
 
 @font-face {
-  font-family: NavText;
-  src: url(Halfomania-Regular.otf);
-}
-@font-face {
   font-family: Rez;
   src: url(REZ.ttf);
 }

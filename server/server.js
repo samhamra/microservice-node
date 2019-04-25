@@ -9,12 +9,12 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fs = require('fs');
 const app = express()
-const port = 80
+const port = 3000;
 const TWO_HOURS = 1000 * 60 * 60 *2;
 const client = "http://localhost"
 
 var users = [];
-fs.readFile('/data/users.json', (err, data) => {
+fs.readFile('data/users.json', (err, data) => {
   if (err) throw err;
   users = JSON.parse(data);
 });
@@ -65,14 +65,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '/../client')));
 
 var forum = []
 
-fs.readFile('/data/forum.json', (err, data) => {
+fs.readFile('data/forum.json', (err, data) => {
   if (err) throw err;
   forum = JSON.parse(data);
 });
+
+app.get('/', (req,res) =>{
+  console.log("whut?")
+    res.sendFile(path.join(__dirname+'/../client/public/index.html'));
+});
+
+
 
 app.post('/register', function(req, res) {
   if(users.some(user=> user.username === req.body.username)) {
@@ -158,9 +165,7 @@ app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
   }
 })
 
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+
 
 
 
@@ -175,8 +180,8 @@ process.stdin.resume();//so the program will not close instantly
 
 function exitHandler() {
   console.log("shutting down")
-  fs.writeFileSync('/data/users.json', JSON.stringify(users));  
-  fs.writeFileSync('/data/forum.json', JSON.stringify(forum))
+  fs.writeFileSync('data/users.json', JSON.stringify(users));  
+  fs.writeFileSync('data/forum.json', JSON.stringify(forum))
   process.exit();
 }
 

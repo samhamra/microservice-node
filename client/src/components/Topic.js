@@ -3,7 +3,6 @@ import {modelInstance} from "../model.js"
 import { Link} from 'react-router-dom';
 import styled from 'styled-components';
 import avatar from '../avatar.png'
-import {hostname} from '../config.js'
 
 const Container = styled.div`
   width: 80%;
@@ -78,7 +77,7 @@ export default class Topic extends Component {
     
   }
   componentDidMount() {
-    fetch(`http://${hostname + this.state.path}`, {
+    fetch(`${this.state.path}`, {
       mode: "cors",
       credentials: 'include'
     })

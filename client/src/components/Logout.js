@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import {modelInstance} from "../model.js"
-import {hostname} from "../config.js"
 
 export default class Logout extends Component {
   componentDidMount() {
-    fetch(`http://${hostname}/logout`, {
+    fetch(`/logout`, {
       method: "POST",
       mode: "cors",
       credentials: 'include'

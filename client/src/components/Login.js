@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Redirect } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import styled from 'styled-components';
-import {hostname} from '../config.js'
 
 const Container = styled.div`
   margin: 2em 2em 2em 2em;
@@ -62,7 +61,7 @@ export default class Login extends Component {
   login(e) {
     e.preventDefault();
     let data = {username: e.target.elements[0].value, password: e.target.elements[1].value}
-    fetch(`http://${hostname}/login`, {
+    fetch(`/login`, {
         method: "POST",
         mode: "cors",
         credentials: "include",
