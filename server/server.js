@@ -9,7 +9,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fs = require('fs');
 const app = express()
-const port = 3000;
+const port = 3001;
 const TWO_HOURS = 1000 * 60 * 60 *2;
 const client = "www.samhamra.com"
 
