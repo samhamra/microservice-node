@@ -109,7 +109,7 @@ export default class Topic extends Component {
       type='button'
       onClick={() => {modelInstance.isLoggedIn() ? history.push(this.state.path + "/createPost") : history.push('/login')}}
     >
-      Create new topic
+      Create new post
     </Button>
   ))
   
