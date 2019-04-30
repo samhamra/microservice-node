@@ -1,42 +1,28 @@
-import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color:white;
-`
-const Title = styled.h1`
-  font-size: 10vw;
-  font-family: Rez
-`
+import React, { Component } from 'react';
 
 const particle = keyframes`
-0% {
+from {
     left: -5%
     
 }
-60% {
-    left: 200%;
-  }
-100% {
-  left: 200%;
+to{
+    left: 105%;
 }
 `
 
+
 const Star = styled.div`
   z-index: 2;
-  position:fixed;
+  position:relative;
   width:1px;
   height:1px;
-  left: -5px;
+  top: 7rem;
   background-color:white;
   animation-name:${props => particle} 
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  animation-duration: 12s;
+  animation-duration: 5s;
   ::before{
     position:absolute;
     display:block;
@@ -50,15 +36,15 @@ const Star = styled.div`
 }
 `
 
-export default class Header extends Component {
-    
+
+
+export default class ShootingStar extends Component {
+    constructor(props) {
+      super()
+    }
   render() {
     return (
-      <Container className="applogo">
-        <Title>SpaceForum</Title>
         <Star/>
-      </Container>
     )
   }
 }
-

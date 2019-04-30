@@ -86,7 +86,7 @@ export default class Main extends Component {
           <Outer>
             <BlackLink to={"/f/" + subForum.id}>{subForum.name}</BlackLink>
             <Info>
-                Posts: {subForum.posts} Topics: {subForum.topics} 
+                Posts: {subForum.posts} &nbsp; Topics: {subForum.topics} 
             </Info>
           </Outer>
         </LeftTd>

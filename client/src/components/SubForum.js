@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import styled from 'styled-components';
 import {hostname} from '../config.js'
@@ -56,9 +56,7 @@ export default class SubForum extends Component {
     super()
     this.state = {
       data: {topics: []},
-      isLoggedIn: modelInstance.isLoggedIn()
     }
-    modelInstance.addObserver(this)
   }
   componentDidMount() {
     fetch(`${hostname}/f/${this.props.match.params.forumId}`, {
@@ -79,18 +77,18 @@ export default class SubForum extends Component {
     
     
   }
-  componentWillUnmount() {
-    modelInstance.removeObserver(this)
-  }
-  
-  update(code) {
-    this.setState({
-      isLoggedIn: modelInstance.isLoggedIn()
-    })
-  }
-  
   render() {
-    const topics= this.state.data.topics.reverse().map((topic,i)=> {
+    const CreateButton = withRouter(({ history }) => (
+    <Button
+      type='button'
+      onClick={() => {modelInstance.isLoggedIn()? history.push(`/f/${this.props.match.params.forumId}/createTopic`) : history.push('/login')}}
+    >
+      Create new topic
+    </Button>
+  ))
+    
+    
+    const topics= this.state.data.topics.slice().reverse().map((topic,i)=> {
       return (
         <Tr isEven={i%2 === 0} key={i}>
           <Td first>
@@ -119,12 +117,8 @@ export default class SubForum extends Component {
             {topics}
           </TBody>
         </Table>
-
-        
-        {
-          this.state.isLoggedIn &&  
-            <Link to={"/f/" + this.props.match.params.forumId + "/createTopic"}><Button>Create new topic</Button> </Link>
-        } 
+        <CreateButton/>
+        {console.log("hmm")}
 
       </Container>
     )

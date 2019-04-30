@@ -9,6 +9,7 @@ import {Redirect, Route, BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
+margin-bottom: 6rem;
 `
 
 const Background = styled.canvas`
@@ -57,9 +58,7 @@ class App extends Component {
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout}/>
-          
         </BrowserRouter>
-        
       </Container>
     );
   }

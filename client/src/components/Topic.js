@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
-import { Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import styled from 'styled-components';
 import avatar from '../avatar.png'
 import {hostname} from '../config.js'
@@ -71,11 +71,9 @@ export default class Topic extends Component {
 
   constructor(props) {
     super()
-    
     this.state = {
-      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
+      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`,
     }
-    
   }
   componentDidMount() {
     fetch(hostname + this.state.path, {
@@ -104,6 +102,17 @@ export default class Topic extends Component {
     if(!this.state.data) {
       return null
     }
+    
+    
+    const CreateButton = withRouter(({ history }) => (
+    <Button
+      type='button'
+      onClick={() => {modelInstance.isLoggedIn() ? history.push(this.state.path + "/createPost") : history.push('/login')}}
+    >
+      Create new topic
+    </Button>
+  ))
+  
     return (
       <Container> 
           <div>
@@ -125,10 +134,7 @@ export default class Topic extends Component {
             ))}
           </div>
           <div>
-            {modelInstance.isLoggedIn() &&
-              <Link to={this.state.path + "/createPost"}><Button>Create new post </Button></Link>
-            }
-            
+            <CreateButton/>
           </div>
       </Container>
     )
