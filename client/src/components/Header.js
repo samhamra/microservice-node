@@ -28,7 +28,7 @@ const particle = keyframes`
 
 const Star = styled.div`
   z-index: 2;
-  position:fixed;
+  position:absolute;
   width:1px;
   height:1px;
   left: -5px;
@@ -36,7 +36,7 @@ const Star = styled.div`
   animation-name:${props => particle} 
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  animation-duration: 12s;
+  animation-duration: 10s;
   ::before{
     position:absolute;
     display:block;
