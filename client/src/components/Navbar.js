@@ -46,8 +46,7 @@ const Img = styled.img`
 
 const Title = styled.div`
   font-family: Rez;
-  font-size: 3vw;
-
+  font-size: 1.5em;
 `
 
 const WhiteLink = styled(Link)`
