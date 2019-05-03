@@ -7,6 +7,10 @@ const Container = styled.div`
   justify-content: center;
   flex-direction: column;
   color:white;
+  max-width: 100%;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
 `
 const Title = styled.h1`
   font-size: 10vw;
@@ -15,14 +19,13 @@ const Title = styled.h1`
 
 const particle = keyframes`
 0% {
-    left: -5%
-    
+  left: -100px  
 }
 60% {
-    left: 200%;
-  }
+  left: calc( 100% + 100px );
+}
 100% {
-  left: 200%;
+  left: calc( 100% + 100px );
 }
 `
 
