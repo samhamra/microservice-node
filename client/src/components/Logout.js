@@ -13,7 +13,9 @@ export default class Logout extends Component {
     .then(response => {
       modelInstance.setLogin(false, null)
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+    })
  }
   render() {
     return (

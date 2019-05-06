@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {modelInstance} from "../model.js"
 import styled from 'styled-components';
 import {hostname} from '../config.js'
@@ -77,17 +77,7 @@ export default class SubForum extends Component {
     
     
   }
-  render() {
-    const CreateButton = withRouter(({ history }) => (
-    <Button
-      type='button'
-      onClick={() => {modelInstance.isLoggedIn()? history.push(`/f/${this.props.match.params.forumId}/createTopic`) : history.push('/login')}}
-    >
-      Create new topic
-    </Button>
-  ))
-    
-    
+  render() {    
     const topics= this.state.data.topics.slice().reverse().map((topic,i)=> {
       return (
         <Tr isEven={i%2 === 0} key={i}>
@@ -117,8 +107,17 @@ export default class SubForum extends Component {
             {topics}
           </TBody>
         </Table>
-        <CreateButton/>
-        {console.log("hmm")}
+        {
+          modelInstance.isLoggedIn() ? (
+            <Link to={`/f/${this.props.match.params.forumId}/createTopic`}>
+              <Button>Create new topic</Button>
+            </Link>
+          ) : (
+            <Link to={{pathname: "/login", state:{prevPath: this.props.location.pathname }}}>
+              <Button>Create new topic</Button>
+            </Link>
+          )
+        }
 
       </Container>
     )

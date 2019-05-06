@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {modelInstance} from "../model.js"
-import {withRouter} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import avatar from '../avatar.png'
 import {hostname} from '../config.js'
@@ -20,7 +20,6 @@ const User = styled.div`
 `
 const Button = styled.button`
 `
-
 const Avatar = styled.div`
   max-height: 60%;
   height: 60%;
@@ -35,6 +34,8 @@ const Avatar = styled.div`
     display: none;
   }
 `
+
+
 const Img = styled.img`
   width: 50%;
 `
@@ -43,8 +44,25 @@ const Data = styled.div`
   height: 40%
 `
 
+const WhiteLink = styled(Link)`
+  background: rgba(255,255,255, 1);
+  margin: 0.6em;
+`
+
 const Message = styled.div`
-  padding: 0.6em;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justfiy-content: space-between;
+`
+const Text = styled.div`
+padding: 0.6em;
+`
+const Buttons = styled.div`
+display: flex;
+justify-content: flex-end;
+align-items: flex-end;
+height: 100%;
 `
 const Username = styled.p`
   font-weight: bold;
@@ -61,8 +79,7 @@ const Post = styled.div`
   border: 1px solid black;
   min-height: 15vw
   margin-bottom: 2vh;
-  background: white;
-  opacity: 0.8
+  background: rgba(255,255,255, 0.8);
   font-family: Forum
   font-size: 1.2rem;
 `
@@ -97,22 +114,11 @@ export default class Topic extends Component {
   }
   render() {
     if(this.state.error) {
-      return (<p>Something happened, try again later</p>)
+      return (<h2 style={{color:"white"}}>Something happened, try again later</h2>)
     }
     if(!this.state.data) {
       return null
     }
-    
-    
-    const CreateButton = withRouter(({ history }) => (
-    <Button
-      type='button'
-      onClick={() => {modelInstance.isLoggedIn() ? history.push(this.state.path + "/createPost") : history.push('/login')}}
-    >
-      Create new post
-    </Button>
-  ))
-  
     return (
       <Container> 
           <div>
@@ -128,13 +134,32 @@ export default class Topic extends Component {
                   </Data>
                 </User>
                 <Message>
-                  <p>{post.post}</p>
+                  <Text>
+                      <p>{post.post}</p>
+                  </Text>
+                  <Buttons>
+                  {modelInstance.getUserName() === post.author && (
+                    <WhiteLink to={{pathname:`${this.state.path}/p/${post.id}/editPost`, state: {message: post.post}}}>
+                      <button>Edit post</button>
+                    </WhiteLink>
+                  )}
+                  </Buttons>                  
                 </Message>
               </Post>
             ))}
           </div>
           <div>
-            <CreateButton/>
+            {
+              modelInstance.isLoggedIn() ? (
+                <Link to={this.state.path + "/createPost"}>
+                  <Button>Create new post</Button>
+                </Link>
+              ) : (
+                <Link to={{pathname: "/login", state:{prevPath: this.props.location.pathname }}}>
+                  <Button>Create new post</Button>
+                </Link>
+              )
+            }
           </div>
       </Container>
     )

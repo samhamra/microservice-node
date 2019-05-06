@@ -37,11 +37,11 @@ const Textarea = styled.textarea`
   font-size: 1.2rem;
 `
 export default class CreatePost extends Component {
-  
   constructor(props) {
     super()
     this.state = {
-      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
+      path: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}/p/${props.match.params.postId}`,
+      redirectPath: `/f/${props.match.params.forumId}/t/${props.match.params.topicId}`
     }
     this.sendData = this.sendData.bind(this)
   }
@@ -70,26 +70,24 @@ export default class CreatePost extends Component {
   }
   
   componentDidMount() {
-    modelInstance.setCreatePost(true);
+    modelInstance.setEditPost(true);
   }
   componentWillUnmount() {
-    modelInstance.setCreatePost(false);
+    modelInstance.setEditPost(false);
   }
   
   render() {
       if(this.state.redirect) {
-        return <Redirect to={this.state.path}/>
+        return <Redirect to={this.state.redirectPath}/>
       }
-      
-      
       if(!modelInstance.isLoggedIn() || this.state.error) {
         return <Redirect to="/"/>
       }
       return (
         <Container>
           <Form onSubmit={this.sendData}>
-            <Textarea required placeholder="Message" name="Post"/>
-            <Button type="submit">Create post</Button>
+            <Textarea required defaultValue={this.props.location.state.message} placeholder="Message" name="Edit post"/>
+            <Button type="submit">Edit post</Button>
           </Form>
         </Container>
       )

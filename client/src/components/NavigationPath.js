@@ -45,18 +45,26 @@ export default class NavigationPath extends Component {
   }  
   
   update(code) {
-    if(code===1) {
-      let data = modelInstance.getForum();
-      this.setState({forumId: data.forumId, forumName: data.forumName})
-    } else if(code===2) {
-      let data = modelInstance.getTopic();
-      this.setState({topicId: data.topicId, topicName: data.topicName})
-    } else if(code===3) {
-      this.setState({createTopic: modelInstance.getCreateTopic()})
-    } else if(code===4) {
-      this.setState({createPost: modelInstance.getCreatePost()})
+    var data;
+    switch(code) {
+      case 1:
+        data = modelInstance.getForum();
+        this.setState({forumId: data.forumId, forumName: data.forumName})
+        break;
+      case 2:
+        data = modelInstance.getTopic();
+        this.setState({topicId: data.topicId, topicName: data.topicName})
+        break;
+      case 3:
+        this.setState({createTopic: modelInstance.getCreateTopic()})
+        break;
+      case 4:
+        this.setState({createPost: modelInstance.getCreatePost()})
+        break;
+      case 5:
+        this.setState({editPost: modelInstance.getEditPost()})
+        break;
     }
-    
   }
   
   componentWillUnmount() {
@@ -89,6 +97,13 @@ export default class NavigationPath extends Component {
                this.state.createPost && (
                  <>
                   <Arrow>&rarr;</Arrow> New post 
+                </>
+               )
+             }
+             {
+               this.state.editPost && (
+                 <>
+                  <Arrow>&rarr;</Arrow> Edit post 
                 </>
                )
              }

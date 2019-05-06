@@ -10,6 +10,7 @@ class Model {
     this.observers = []
     this.createTopic = false;
     this.createPost = false;
+    this.editPost = false;
   }
   setLogin(logged, username) {
     this.loggedIn = logged;
@@ -40,6 +41,14 @@ class Model {
   setCreatePost(val) {
     this.createPost= val;
     this.notifyObservers(4);
+  }
+  
+  getEditPost() {
+    return this.editPost;
+  }
+  setEditPost(val) {
+    this.editPost = val
+    this.notifyObservers(5);
   }
   
   getForum() {

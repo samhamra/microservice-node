@@ -72,7 +72,6 @@ export default class CreateTopic extends Component {
       }
     )
     .then(response => {
-      console.log(response)
       if(response.status === 200) {
         return response.json()
       } else {
@@ -80,11 +79,9 @@ export default class CreateTopic extends Component {
       }
     })
     .then(response => {
-      console.log(response)
       this.setState({redirect: response.path})
     })
     .catch((error) =>  {
-      console.log(error)
       this.setState({error: true})
     })
   }

@@ -61,7 +61,7 @@ app.use(session({
   }
 }))
 app.use(cors({credentials: true, origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+      if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     }
   }}));
@@ -103,7 +103,6 @@ app.post('/login', (req, res, next) => {
     if (!user) { console.log("no user found"); return res.sendStatus(401) }
     req.login(user, (err) => {
       if (err) { console.log(err); return next(err); }
-      console.log("authed")
       req.session.key = "sam"
       return res.status(200).send({username: user.username})
     })
@@ -163,15 +162,32 @@ app.get('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
 
 app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
   if(req.isAuthenticated()) {
-    let currentTopic = forum[req.params.forumId].topics[req.params.topicId];
+
+    let currentIndex = forum[req.params.forumId].topics.findIndex(topic=>topic.id==req.params.topicId)
+    let currentTopic = forum[req.params.forumId].topics[currentIndex]
+
     currentTopic.posts.push({post: req.body.post, author: req.user.username, timestamp: new Date(), id: currentTopic.posts.length})
-    forum[req.params.forumId].topics = forum[req.params.forumId].topics.concat(forum[req.params.forumId].topics.splice(req.params.topicId, 1));
+    forum[req.params.forumId].topics = forum[req.params.forumId].topics.concat(forum[req.params.forumId].topics.splice(currentIndex, 1));
     res.sendStatus(200)
   } else {
     res.sendStatus(401)
   }
 })
 
+app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)/p/:postId([0-9]+)', function(req, res) {
+  if(req.isAuthenticated()) {
+    let currentTopic = forum[req.params.forumId].topics.find(topic=>topic.id==req.params.topicId);
+    let currentPost = currentTopic.posts.find(post=>post.id == req.params.postId)
+    if(currentPost.author === req.user.username) {
+      currentPost.post = req.body.post;
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(401)
+    }
+  } else {
+    res.sendStatus(401)
+  }
+})
 
 
 

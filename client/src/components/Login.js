@@ -92,7 +92,7 @@ export default class Login extends Component {
   }
   render() {
     if(this.state.redirect) {
-      return <Redirect to="/"/>
+        return <Redirect to={this.props.location.state ? this.props.location.state.prevPath : "/"}/>
     }
     return (
       <Container>
