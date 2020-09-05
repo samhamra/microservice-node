@@ -1,8 +1,9 @@
 FROM node:14.9.0-alpine
-WORKDIR /opt/
+WORKDIR /service/
+COPY package*.json ./
 RUN  npm install
-EXPOSE 80
-CMD npm start
+COPY . .
+EXPOSE 3000
 
 
 

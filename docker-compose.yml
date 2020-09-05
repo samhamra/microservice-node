@@ -4,12 +4,16 @@ services:
     build: ./server
     ports:
       - "3001:3001"
+    entrypoint: ['node', 'server.js']
     volumes:
-      - ./server:/opt
+      - ./server:/service
+      - /service/node_modules
   web-client:
     build: ./client
     ports:
       - "80:80"
+    entrypoint: ['npm', 'start']
     volumes:
-      - ./client:/opt
+      - ./client:/service
+      - /service/node_modules
 
