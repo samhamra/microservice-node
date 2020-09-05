@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web-server:
+    build: ./server
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/opt
+  web-client:
+    build: ./client
+    ports:
+      - "80:80"
+    volumes:
+      - ./client:/opt
+
