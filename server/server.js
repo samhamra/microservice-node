@@ -11,7 +11,7 @@ const fs = require('fs');
 const app = express()
 const port = 3001;
 const TWO_HOURS = 1000 * 60 * 60 *2;
-const whitelist= ["http://samhamra.com", "http://www.samhamra.com", "http://localhost", "http://localhost:3001", "http://localhost:81" ];
+const whitelist= ["http://samhamra.com:8081", "http://www.samhamra.com:8081", "http://localhost", "http://localhost:3001", "http://localhost:81" ];
 
 var users = [];
 fs.readFile('data/users.json', (err, data) => {
