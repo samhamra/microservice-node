@@ -213,3 +213,4 @@ function exitHandler() {
 //catches ctrl+c event
 process.on('SIGINT', exitHandler);
 
+module.exports = app;
