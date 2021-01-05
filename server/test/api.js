@@ -14,7 +14,7 @@ describe('/GET f', () => {
                   res.should.have.status(200);
                   res.body.should.be.a('array');
                   res.body.length.should.be.above(0);
-              done();
+                  done();
             });
       });
 });

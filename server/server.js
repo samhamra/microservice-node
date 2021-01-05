@@ -11,7 +11,7 @@ const fs = require('fs');
 const app = express()
 const port = 3001;
 const TWO_HOURS = 1000 * 60 * 60 *2;
-const whitelist= ["http://samhamra.com:8081", "http://www.samhamra.com:8081","http://forum.samhamra.com", "http://www.forum.samhamra.com" ,"http://localhost", "http://localhost:3001", "http://localhost:81", "http://samhamra.com", "http://localhost" ];
+const whitelist= ["http://samhamra.com:8081","http://forum.samhamra.com", "http://www.forum.samhamra.com" ,"http://localhost", "http://localhost:3001", "http://localhost:81", "http://samhamra.com", "http://localhost" ];
 
 var users = [];
 fs.readFile('data/users.json', (err, data) => {
@@ -72,18 +72,17 @@ fs.readFile('data/forum.json', (err, data) => {
   forum = JSON.parse(data);
 });
 
-var corsOptions = {
-  credentials: true, 
-  origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true)
-    }
-  }
-}
 
-app.options('*', cors(corsOptions)) // include before other routes
+app.use(cors({credentials: true, origin: function (origin, callback) {
+      if(process.env.NODE_ENV === "test" || process.env.NODE_ENV === "development") {
+         callback(null, true)
+      } else if (whitelist.indexOf(origin) !== -1) {
+         process.env.NODE_ENV
+	 callback(null, true)
+      }
+  }}));
 
-app.post('/register', cors(corsOptions), function(req, res) {
+app.post('/register', function(req, res) {
   if(users.some(user=> user.username === req.body.username)) {
     res.send(409)
   } else {
@@ -92,7 +91,7 @@ app.post('/register', cors(corsOptions), function(req, res) {
   }
 })
 
-app.post('/login', cors(corsOptions),(req, res, next) => {
+app.post('/login',(req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) { console.log(err); return next(err); }
     if (!user) { console.log("no user found"); return res.sendStatus(401) }
@@ -104,7 +103,7 @@ app.post('/login', cors(corsOptions),(req, res, next) => {
   })(req, res, next);
 })
 
-app.post('/logout', cors(corsOptions), (req,res) => {
+app.post('/logout', (req,res) => {
   req.logout();
   req.session.destroy(function (err) {
     if (err) {
@@ -135,7 +134,7 @@ app.get('/f/:forumId([0-9]+)', function(req, res) {
 })
 
 
-app.post('/f/:forumId([0-9]+)', cors(corsOptions),function(req, res) {
+app.post('/f/:forumId([0-9]+)',function(req, res) {
   if(req.isAuthenticated()) {
     var currentForum = forum[req.params.forumId];
     currentForum.topics.push({title: req.body.title, author: req.user.username, timestamp: new Date(), id: currentForum.topics.length, views: 0, posts:[{id: 0, post: req.body.post, author: req.user.username, timestamp: new Date()}]})
@@ -156,7 +155,7 @@ app.get('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
   }
 })
 
-app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', cors(corsOptions), function(req, res) {
+app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', function(req, res) {
   if(req.isAuthenticated()) {
 
     let currentIndex = forum[req.params.forumId].topics.findIndex(topic=>topic.id==req.params.topicId)
@@ -170,7 +169,7 @@ app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)', cors(corsOptions), function(r
   }
 })
 
-app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)/p/:postId([0-9]+)', cors(corsOptions),function(req, res) {
+app.post('/f/:forumId([0-9]+)/t/:topicId([0-9]+)/p/:postId([0-9]+)',function(req, res) {
   if(req.isAuthenticated()) {
     let currentTopic = forum[req.params.forumId].topics.find(topic=>topic.id==req.params.topicId);
     let currentPost = currentTopic.posts.find(post=>post.id == req.params.postId)

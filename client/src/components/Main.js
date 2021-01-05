@@ -57,10 +57,7 @@ export default class Main extends Component {
     }
   }
   componentDidMount() {
-    fetch(`${hostname}/f`, {
-      mode: "cors",
-      credentials: 'include'
-    })
+    fetch(`${hostname}/f`)
     .then(response => response.json())
     .then(response => {
       modelInstance.setForum(null, null)
