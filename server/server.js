@@ -76,7 +76,7 @@ fs.readFile('data/forum.json', (err, data) => {
 app.use(cors({credentials: true, origin: function (origin, callback) {
       if(process.env.NODE_ENV === "test" || process.env.NODE_ENV === "development") {
          callback(null, true)
-      } else if (whitelist.indexOf(origin) !== -1) {
+      } else if (whitelist.indexOf(origin) !== -1) { 
          process.env.NODE_ENV
 	 callback(null, true)
       }
