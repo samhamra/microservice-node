@@ -5,10 +5,15 @@ node {
       def dockerfile = 'Dockerfile.test'
       app = docker.build("nodejs-test:${env.BUILD_ID}", "-f ${dockerfile} .") 
     }
-
-    stage('Test') {
-      app.inside { 
-        sh 'cd /service && npm test'
+      
+    try {
+      stage('Test') {
+        app.inside { 
+          sh 'cd /service && npm test'
+        }
       }
+    } finally {
+      junit 'build/reports/**/*.xml'
     }
+    
 }
