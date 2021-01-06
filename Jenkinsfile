@@ -5,9 +5,10 @@ node {
       def dockerfile = 'Dockerfile.test'
       app = docker.build("nodejs-test:${env.BUILD_ID}", "-f ${dockerfile} .") 
     }
+
     stage('Test') {
       app.inside { 
-        sh 'cd /usr/src/app && npm test'
+        sh 'cd /service && npm test'
       }
     }
 }
