@@ -6,8 +6,8 @@ node {
       app = docker.build("nodejs-test:${env.BUILD_ID}", "-f ${dockerfile} .") 
     }
     stage('Test') {
-      app.withRun { 
-        sh 'cd /service && npm test'
+      app.inside { 
+        sh 'cd /usr/src/app && npm test'
       }
     }
 }
