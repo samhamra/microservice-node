@@ -14,7 +14,7 @@ const TWO_HOURS = 1000 * 60 * 60 *2;
 const whitelist= ["http://samhamra.com:8081","http://forum.samhamra.com", "http://www.forum.samhamra.com" ,"http://localhost", "http://localhost:3001", "http://localhost:81", "http://samhamra.com", "http://localhost" ];
 
 var users = [];
-fs.readFile('data/users.json', (err, data) => {
+fs.readFile('../data/users.json', (err, data) => {
   if (err) throw err;
   users = JSON.parse(data);
 });
@@ -67,7 +67,7 @@ app.use(passport.session());
 
 var forum = []
 
-fs.readFile('data/forum.json', (err, data) => {
+fs.readFile('../data/forum.json', (err, data) => {
   if (err) throw err;
   forum = JSON.parse(data);
 });
