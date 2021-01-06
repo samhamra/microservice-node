@@ -2,7 +2,8 @@ node {
     def app
     checkout scm
     stage('Build') { 
-      app = docker.build("nodejs-test:${env.BUILD_ID}", "./test") 
+      def dockerfile = 'Dockerfile.test'
+      app = docker.build("nodejs-test:${env.BUILD_ID}", "-f ${dockerfile} .") 
     }
     stage('Test') {
       app.inside { 
