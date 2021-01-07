@@ -24,8 +24,7 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "JUNIT_REPORT_PATH=test/reports/report.xml node_modules/mocha/bin/mocha --colors --reporter mocha-jenkins-reporter",
-    "test-jenkins": "JUNIT_REPORT_PATH=/var/jenkins_home/workspace/pipeline-test/test/reports/report.xml node_modules/mocha/bin/mocha --colors --reporter mocha-jenkins-reporter"
+    "test": "JUNIT_REPORT_PATH=test/reports/report.xml node_modules/mocha/bin/mocha --colors --reporter mocha-jenkins-reporter"
   },
   "author": "Sam",
   "license": "ISC"
