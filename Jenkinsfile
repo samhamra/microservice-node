@@ -9,11 +9,11 @@ node {
     try {
       stage('Test') {
         app.inside { 
-          sh 'cd /service && npm test'
+          sh 'cd /service && npm run test-jenkins'
         }
       }
     } finally {
-      sh 'ls && pwd'
+      junit 'test-pipeline/test/reports/report.xml'
     }
     
 }
