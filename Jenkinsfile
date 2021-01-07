@@ -2,18 +2,20 @@ node {
     def app
     checkout scm
     stage('Build') { 
-      def dockerfile = 'Dockerfile.test'
-      app = docker.build("nodejs-test:${env.BUILD_ID}", "-f ${dockerfile} .") 
+      app = docker.image("node:14.9.0-alpine") 
+      app.inside {
+          sh 'npm install'
+      }
     }
       
     try {
       stage('Test') {
         app.inside { 
-          sh 'cd /service && npm run test-jenkins'
+        sh 'npm test'
         }
       }
     } finally {
-      junit 'test-pipeline/test/reports/report.xml'
+      junit 'test/reports/report.xml'
     }
     
 }
