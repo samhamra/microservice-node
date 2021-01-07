@@ -1,7 +1,7 @@
 node_modules/*
 sessions/*
-data/users.json
-data/forum.json
+data/*
+test/*
 # misc
 .DS_Store
 .env.local

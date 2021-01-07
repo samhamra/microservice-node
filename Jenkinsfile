@@ -13,7 +13,7 @@ node {
         }
       }
     } finally {
-      junit 'build/reports/**/*.xml'
+      sh 'ls && pwd'
     }
     
 }
