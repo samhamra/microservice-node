@@ -1,4 +1,4 @@
-A forum written in node and react.
+iA forum written in node and react.
 
 Project Setup:
 
