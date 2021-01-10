@@ -11,7 +11,7 @@ describe('/GET f', () => {
         chai.request(server)
             .get('/f')
             .end((err, res) => {
-                  res.should.have.status(200);
+                  res.should.have.status(500);
                   res.body.should.be.a('array');
                   res.body.length.should.be.above(0);
                   done();
