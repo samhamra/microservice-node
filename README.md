@@ -1,4 +1,4 @@
-iSpaceforum - A forum written in node and react.
+A forum written in node and react.
 
 Project Setup:
 
