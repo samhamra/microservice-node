@@ -1,6 +1,4 @@
-Microservice written in Nodejs, Docker & Jenkins.
 
-Project Setup:
+Microservice written in Nodejs.
 
 
-TODO
